@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Painel --Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="painel.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <div class="links">
+    <a href="painel.html" class="active">Painel</a>
+    <a href="pacientes.html">Pacientes</a>
+    <a href="atendimentos.html">Atendimentos</a>
+    <a href="medicamentos.html">Medicamentos</a>
+    <a href="usuarios.html">Usuários</a>
+  </div>
+  <a class="btn btn-ghost btn-small" href="login.html" onclick="localStorage.clear()">Sair</a>
+</nav>
+
+<main>
+  <div class="page">
+    <div class="page-head">
+      <h1>Olá, <span id="nome">equipe</span>!</h1>
+      <div class="actions">
+        <a class="btn btn-ghost" href="paciente-form.html">Novo paciente</a>
+        <a class="btn" href="novo-atendimento.html">Novo atendimento</a>
+      </div>
+    </div>
+
+    <div class="grid cols-4">
+      <div class="card stat"><b>6</b><span>Atendimentos hoje</span></div>
+      <div class="card stat"><b>1</b><span>Abertos</span></div>
+      <div class="card stat"><b>3</b><span>Em andamento</span></div>
+      <div class="card stat"><b>1</b><span>Finalizados hoje</span></div>
+    </div>
+
+    <div class="card card-table">
+      <table>
+        <tr>
+          <th>Paciente</th>
+          <th>Classificação</th>
+          <th>Chegada</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+        <tr>
+          <td>Beatriz Oliveira Costa</td>
+          <td><span class="badge vermelho">Vermelho</span></td>
+          <td>11:10</td>
+          <td><span class="badge andamento">Em andamento</span></td>
+          <td><a class="btn btn-small" href="atendimento.html">Abrir</a></td>
+        </tr>
+        <tr>
+          <td>Maria Aparecida Souza</td>
+          <td><span class="badge amarelo">Amarelo</span></td>
+          <td>10:03</td>
+          <td><span class="badge andamento">Em andamento</span></td>
+          <td><a class="btn btn-small" href="atendimento.html">Abrir</a></td>
+        </tr>
+        <tr>
+          <td>João Pedro Almeida</td>
+          <td><span class="badge verde">Verde</span></td>
+          <td>10:40</td>
+          <td><span class="badge andamento">Em andamento</span></td>
+          <td><a class="btn btn-small" href="atendimento.html">Abrir</a></td>
+        </tr>
+        <tr>
+          <td>Antônio Ferreira Lima</td>
+          <td><span class="badge aberto">Sem triagem</span></td>
+          <td>11:06</td>
+          <td><span class="badge aberto">Aberto</span></td>
+          <td><a class="btn btn-small" href="triagem.html">Triar</a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+<script>
+  var usuario = JSON.parse(localStorage.getItem('usuario'));
+
+  if (usuario) {
+    document.getElementById('nome').textContent = usuario.nome_completo.split(' ')[0];
+  }
+</script>
+
+</body>
+</html>

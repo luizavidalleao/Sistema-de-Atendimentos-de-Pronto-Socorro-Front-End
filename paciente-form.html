@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Paciente - Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="painel.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <div class="links">
+    <a href="painel.html">Painel</a>
+    <a href="pacientes.html" class="active">Pacientes</a>
+    <a href="atendimentos.html">Atendimentos</a>
+    <a href="medicamentos.html">Medicamentos</a>
+    <a href="usuarios.html">Usuários</a>
+  </div>
+  <a class="btn btn-ghost btn-small" href="login.html" onclick="localStorage.clear()">Sair</a>
+</nav>
+
+<main>
+  <div class="page">
+    <div class="page-head">
+      <h1>Novo paciente</h1>
+    </div>
+
+    <form action="pacientes.html">
+      <div class="card">
+        <h2>Dados pessoais</h2>
+        <div class="field">
+          <label for="nome_completo">Nome completo *</label>
+          <input id="nome_completo" required>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="cpf">CPF</label>
+            <input id="cpf" maxlength="11" placeholder="Só números">
+          </div>
+          <div class="field">
+            <label for="rg">RG</label>
+            <input id="rg">
+          </div>
+          <div class="field">
+            <label for="data_nascimento">Data de nascimento *</label>
+            <input type="date" id="data_nascimento" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="nome_mae">Nome da mãe</label>
+            <input id="nome_mae">
+          </div>
+          <div class="field">
+            <label for="nome_pai">Nome do pai</label>
+            <input id="nome_pai">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Endereço</h2>
+        <div class="row">
+          <div class="field">
+            <label for="cep">CEP</label>
+            <input id="cep" maxlength="8" placeholder="Só números">
+          </div>
+          <div class="field">
+            <label for="logradouro">Logradouro</label>
+            <input id="logradouro">
+          </div>
+          <div class="field">
+            <label for="numero">Número</label>
+            <input id="numero">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="bairro">Bairro</label>
+            <input id="bairro">
+          </div>
+          <div class="field">
+            <label for="cidade">Cidade</label>
+            <input id="cidade">
+          </div>
+          <div class="field">
+            <label for="estado">UF</label>
+            <input id="estado" maxlength="2" placeholder="SP">
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="pacientes.html">Cancelar</a>
+        <button class="btn">Salvar paciente</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+</body>
+</html>

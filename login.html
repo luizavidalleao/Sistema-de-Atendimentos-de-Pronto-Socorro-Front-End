@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Entrar -Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="login.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <a class="btn btn-ghost btn-small" href="cadastro.html">Criar conta</a>
+</nav>
+
+<main class="auth">
+  <div class="card">
+    <h2>Entrar</h2>
+    <p class="muted">Use o e-mail e a senha cadastrados.</p>
+
+    <p class="alert erro" id="erro" hidden></p>
+
+    <form id="form">
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="voce@email.com">
+      </div>
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha">
+      </div>
+      <button class="btn btn-full">Entrar</button>
+    </form>
+
+    <p class="center muted">Ainda não tem conta? <a class="link" href="cadastro.html">Criar conta</a></p>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+  document.getElementById('form').addEventListener('submit', async function (evento) {
+    evento.preventDefault();
+
+    var erro = document.getElementById('erro');
+    erro.hidden = true;
+
+    try {
+      var resposta = await fetch(API + '/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: document.getElementById('email').value,
+          senha: document.getElementById('senha').value
+        })
+      });
+      var dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(dados.message || 'Erro ao entrar');
+      }
+
+      localStorage.setItem('token', dados.token);
+      localStorage.setItem('usuario', JSON.stringify(dados.usuario));
+      location.href = 'painel.html';
+    } catch (e) {
+      erro.textContent = e.message;
+      erro.hidden = false;
+    }
+  });
+</script>
+
+</body>
+</html>

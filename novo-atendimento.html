@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Novo atendimento - Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="painel.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <div class="links">
+    <a href="painel.html">Painel</a>
+    <a href="pacientes.html">Pacientes</a>
+    <a href="atendimentos.html" class="active">Atendimentos</a>
+    <a href="medicamentos.html">Medicamentos</a>
+    <a href="usuarios.html">Usuários</a>
+  </div>
+  <a class="btn btn-ghost btn-small" href="login.html" onclick="localStorage.clear()">Sair</a>
+</nav>
+
+<main>
+  <div class="page">
+    <div class="page-head">
+      <h1>Novo atendimento</h1>
+    </div>
+
+    <form class="card" action="atendimento.html">
+      <div class="field">
+        <label for="paciente">Paciente</label>
+        <select id="paciente" required>
+          <option value="">Selecione o paciente</option>
+          <option value="3">Antônio Ferreira Lima</option>
+          <option value="6">Beatriz Oliveira Costa</option>
+          <option value="2">João Pedro Almeida</option>
+          <option value="1">Maria Aparecida Souza</option>
+        </select>
+      </div>
+
+      <p class="alert">A data e a hora de chegada são registradas automaticamente, e o atendimento começa com o status Aberto.</p>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="atendimentos.html">Cancelar</a>
+        <button class="btn">Abrir atendimento</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+</body>
+</html>

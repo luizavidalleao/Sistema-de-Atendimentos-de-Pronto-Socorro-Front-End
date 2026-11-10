@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Confirmar cadastro - Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="login.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <a class="btn btn-ghost btn-small" href="login.html">Entrar</a>
+</nav>
+
+<main class="auth">
+  <div class="card">
+    <h2>Confirmar cadastro</h2>
+    <p class="alert" id="resultado">Confirmando…</p>
+    <a class="btn btn-full" href="login.html">Ir para o login</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+  async function confirmar() {
+    var resultado = document.getElementById('resultado');
+    var token = new URLSearchParams(location.search).get('token');
+
+    try {
+      var resposta = await fetch(API + '/api/auth/confirmar-cadastro?token=' + token);
+      var dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(dados.message || 'Não foi possível confirmar');
+      }
+
+      resultado.textContent = dados.mensagem || 'Cadastro confirmado com sucesso!';
+      resultado.className = 'alert ok';
+    } catch (e) {
+      resultado.textContent = e.message;
+      resultado.className = 'alert erro';
+    }
+  }
+
+  confirmar();
+</script>
+
+</body>
+</html>

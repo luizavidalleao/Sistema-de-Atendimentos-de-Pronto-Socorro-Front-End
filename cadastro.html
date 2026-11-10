@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Criar conta - Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="login.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <a class="btn btn-ghost btn-small" href="login.html">Entrar</a>
+</nav>
+
+<main class="auth">
+  <div class="card">
+    <h2>Criar conta</h2>
+    <p class="muted">Depois do cadastro, enviaremos um link de confirmação para o seu e-mail.</p>
+
+    <p class="alert erro" id="erro" hidden></p>
+    <p class="alert ok" id="sucesso" hidden></p>
+
+    <form id="form">
+      <div class="field">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" required>
+      </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" required>
+      </div>
+      <button class="btn btn-full">Criar conta</button>
+    </form>
+
+    <p class="center muted">Já tem conta? <a class="link" href="login.html">Entrar</a></p>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+  document.getElementById('form').addEventListener('submit', async function (evento) {
+    evento.preventDefault();
+
+    var erro = document.getElementById('erro');
+    var sucesso = document.getElementById('sucesso');
+    erro.hidden = true;
+    sucesso.hidden = true;
+
+    try {
+      var resposta = await fetch(API + '/api/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome_completo: document.getElementById('nome').value,
+          email: document.getElementById('email').value,
+          senha: document.getElementById('senha').value
+        })
+      });
+      var dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(dados.message || 'Erro ao cadastrar');
+      }
+
+      sucesso.textContent = 'Conta criada! Verifique seu e-mail para confirmar o cadastro.';
+      sucesso.hidden = false;
+      document.getElementById('form').reset();
+    } catch (e) {
+      erro.textContent = e.message;
+      erro.hidden = false;
+    }
+  });
+</script>
+
+</body>
+</html>

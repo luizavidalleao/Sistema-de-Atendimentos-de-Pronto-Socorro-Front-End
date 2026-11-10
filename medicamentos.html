@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Medicamentos - Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="painel.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <div class="links">
+    <a href="painel.html">Painel</a>
+    <a href="pacientes.html">Pacientes</a>
+    <a href="atendimentos.html">Atendimentos</a>
+    <a href="medicamentos.html" class="active">Medicamentos</a>
+    <a href="usuarios.html">Usuários</a>
+  </div>
+  <a class="btn btn-ghost btn-small" href="login.html" onclick="localStorage.clear()">Sair</a>
+</nav>
+
+<main>
+  <div class="page">
+    <div class="page-head">
+      <h1>Medicamentos</h1>
+    </div>
+
+    <div class="card">
+      <h2>Novo medicamento</h2>
+      <p class="alert erro" id="erro" hidden></p>
+      <form id="form" class="actions">
+        <input id="nome" placeholder="Nome do medicamento (ex.: Dipirona)" style="flex:1">
+        <button class="btn">Adicionar</button>
+      </form>
+    </div>
+
+    <div class="card card-table">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+        </tr>
+        <tbody id="lista"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+  var token = localStorage.getItem('token');
+  var erro = document.getElementById('erro');
+
+  async function carregar() {
+    try {
+      var resposta = await fetch(API + '/api/medicamentos', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      var medicamentos = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(medicamentos.mensagem || medicamentos.message);
+      }
+
+      var lista = document.getElementById('lista');
+      lista.innerHTML = '';
+
+      for (var i = 0; i < medicamentos.length; i++) {
+        var linha = document.createElement('tr');
+        linha.innerHTML = '<td></td><td></td>';
+        linha.children[0].textContent = medicamentos[i].id_medicamento;
+        linha.children[1].textContent = medicamentos[i].nome_medicamento;
+        lista.appendChild(linha);
+      }
+    } catch (e) {
+      erro.textContent = e.message;
+      erro.hidden = false;
+    }
+  }
+
+  document.getElementById('form').addEventListener('submit', async function (evento) {
+    evento.preventDefault();
+    erro.hidden = true;
+
+    try {
+      var resposta = await fetch(API + '/api/medicamentos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify({ nome_medicamento: document.getElementById('nome').value })
+      });
+      var dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(dados.mensagem || dados.message);
+      }
+
+      document.getElementById('nome').value = '';
+      carregar();
+    } catch (e) {
+      erro.textContent = e.message;
+      erro.hidden = false;
+    }
+  });
+
+  carregar();
+</script>
+
+</body>
+</html>

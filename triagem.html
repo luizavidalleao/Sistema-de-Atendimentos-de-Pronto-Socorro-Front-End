@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<title>Triagem - Vihva</title>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="painel.html"><span class="logo-mark"></span><span>Vihva</span></a>
+  <div class="links">
+    <a href="painel.html">Painel</a>
+    <a href="pacientes.html">Pacientes</a>
+    <a href="atendimentos.html" class="active">Atendimentos</a>
+    <a href="medicamentos.html">Medicamentos</a>
+    <a href="usuarios.html">Usuários</a>
+  </div>
+  <a class="btn btn-ghost btn-small" href="login.html" onclick="localStorage.clear()">Sair</a>
+</nav>
+
+<main>
+  <div class="page">
+    <div class="page-head">
+      <div>
+        <h1>Triagem</h1>
+        <p class="muted">Maria Aparecida Souza · Atendimento #3</p>
+      </div>
+    </div>
+
+    <form action="atendimento.html">
+      <div class="card">
+        <h2>Sinais vitais</h2>
+        <div class="row">
+          <div class="field">
+            <label for="pressao_sistolica">Pressão sistólica (mmHg)</label>
+            <input type="number" id="pressao_sistolica">
+          </div>
+          <div class="field">
+            <label for="pressao_diastolica">Pressão diastólica (mmHg)</label>
+            <input type="number" id="pressao_diastolica">
+          </div>
+          <div class="field">
+            <label for="temperatura">Temperatura (°C)</label>
+            <input type="number" step="0.1" id="temperatura">
+          </div>
+          <div class="field">
+            <label for="batimentos_cardiacos">Batimentos (bpm)</label>
+            <input type="number" id="batimentos_cardiacos">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Queixas</h2>
+        <textarea id="queixas" placeholder="Descreva as queixas relatadas pelo paciente"></textarea>
+      </div>
+
+      <div class="card">
+        <h2>Classificação de risco (Manchester) *</h2>
+        <div class="options">
+          <label><input type="radio" name="classificacao" value="VERMELHO" required><span class="vermelho">Vermelho<small>Imediato</small></span></label>
+          <label><input type="radio" name="classificacao" value="LARANJA"><span class="laranja">Laranja<small>Até 10 min</small></span></label>
+          <label><input type="radio" name="classificacao" value="AMARELO"><span class="amarelo">Amarelo<small>Até 60 min</small></span></label>
+          <label><input type="radio" name="classificacao" value="VERDE"><span class="verde">Verde<small>Até 120 min</small></span></label>
+          <label><input type="radio" name="classificacao" value="AZUL"><span class="azul">Azul<small>Até 240 min</small></span></label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="atendimento.html">Cancelar</a>
+        <button class="btn">Salvar triagem</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Vihva</span>
+  <span>Juntos por mais segurança <b>♥</b></span>
+</footer>
+
+</body>
+</html>
