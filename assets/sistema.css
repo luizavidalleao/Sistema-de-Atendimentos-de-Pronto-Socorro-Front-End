@@ -1,0 +1,63 @@
+/* Identidade compartilhada com as telas de acesso: superfícies claras e coral nas ações. */
+.pagina-sistema {
+  --fundo-cartao: #ffffff;
+  --borda-cartao: #dce7f3;
+  --sombra-cartao: 0 8px 22px #344d840a;
+  --tom-navegacao: #f0f5fc;
+  --titulo-sistema: #192c44;
+  background: var(--bg);
+}
+.pagina-sistema main { background: transparent; }
+.pagina-sistema #conteudo:focus { outline: none; }
+.pagina-sistema > .nav {
+  background: #ffffffed;
+  border-bottom: 1px solid var(--borda-cartao);
+}
+.pagina-sistema #menu { background: var(--tom-navegacao); border: 1px solid var(--borda-cartao); padding: 4px; }
+.pagina-sistema #menu a { color: #465c76; font-weight: 650; }
+.pagina-sistema #menu a[aria-current="page"] { background: #ffdce1; color: #8e3343; box-shadow: none; }
+.pagina-sistema .page-head h1 {
+  color: var(--titulo-sistema);
+  line-height: 1.14;
+}
+.pagina-sistema .page-head .actions:empty { display: none; }
+.pagina-sistema .descricao-pagina { color: #536681; }
+.pagina-sistema .card {
+  background: var(--fundo-cartao); border-color: var(--borda-cartao);
+  border-radius: 20px; box-shadow: var(--sombra-cartao);
+}
+.pagina-sistema .card h2 { color: var(--titulo-sistema); }
+.pagina-sistema .abertura-opcoes .cadastro-alternativo {
+  background: #eef6ff;
+}
+.pagina-sistema .indicadores-fila > .stat {
+  position: relative; background: var(--fundo-cartao); min-height: 88px;
+}
+.pagina-sistema .stat b { color: var(--titulo-sistema); }
+.pagina-sistema .stat span { color: #536681; }
+.pagina-sistema .filtros-fila { border-color: var(--borda-cartao); }
+.pagina-sistema .filtros-fila label { color: #465a77; }
+.pagina-sistema .tabela-atendimentos th, .pagina-sistema .listagem-responsiva th { background: #f2f6fc; color: #4c607c; }
+.pagina-sistema .listagem-responsiva td { border-color: #e9eff7; }
+.pagina-sistema .fila-painel #lista > .card-table { box-shadow: none; border-radius: 0 0 20px 20px; }
+.pagina-sistema .field input:not([type="radio"]):not([type="checkbox"]),
+.pagina-sistema .field textarea, .pagina-sistema .field select { background-color: #fcfdff; border-color: #d8e4f1; }
+.pagina-sistema .field :is(input, textarea, select):focus { border-color: #7eb5df; background-color: #fff; }
+.pagina-sistema .field textarea { resize: vertical; }
+.pagina-sistema .proxima-etapa {
+  border-color: var(--borda-cartao); border-radius: 20px;
+  background: #edf6ff;
+}
+.pagina-sistema .fluxo-paciente li { border-color: var(--borda-cartao); }
+.pagina-sistema .fluxo-paciente .concluida { background: #e9f3ff; }
+.pagina-sistema .fluxo-paciente .atual { background: #ffedef; border-color: #f5c8cf; }
+.pagina-sistema .resumo-queixas p { background: #f5f8fd; }
+.pagina-sistema .footer { background: #ffffff94; border-color: var(--borda-cartao); color: #536681; }
+@media (hover: hover) {
+  .pagina-sistema #menu a:not([aria-current]):hover { background: #e3edf9; }
+  .pagina-sistema .listagem-responsiva tbody tr:hover { background: #f7faff; }
+}
+@media (max-width: 600px) {
+  .pagina-sistema .indicadores-fila > .stat { min-height: 74px; border-radius: 13px; }
+  .pagina-sistema .footer { padding-block: 12px; }
+}

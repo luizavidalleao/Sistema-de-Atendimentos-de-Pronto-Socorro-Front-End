@@ -1,1 +1,2 @@
-var API = 'http://localhost:3000';
+/* Configuração exclusiva da demonstração; nenhuma conexão externa. */
+window.VihvaConfig = Object.freeze({ chave: 'vihva.demo.v1', sessao: 'vihva.demo.sessao' });

@@ -1,0 +1,33 @@
+/* Acabamento dos controles, recepção e telas de acesso. */
+.nav .logo-imagem { width: 124px; height: 39px; }
+.btn { transition: background-color .16s, border-color .16s, box-shadow .16s; }
+.btn:not(.btn-ghost):not(:disabled):hover { background: #e75360; border-color: #e75360; }
+.btn.btn-ghost:not(:disabled):hover { background: #edf5fd; border-color: #bed6ec; }
+.links a:hover { color: var(--dark); background: #e3edf7; }
+.btn:focus-visible, .links a:focus-visible, .auth .link:focus-visible { outline: 2px solid #2a6fa8; outline-offset: 3px; }
+.btn:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+.acoes-paciente a:first-child { color: #983341; background: var(--coral-soft); border-color: #f5c5ca; }
+.acoes-paciente a.btn:first-child:hover { background: #ffdce1; border-color: #ed9da8; }
+.acoes-paciente a:last-child { color: #255f8d; background: var(--blue-soft); border-color: #cfe4f6; }
+.acoes-paciente a.btn:last-child:hover { background: #dceeff; border-color: #a9cbe8; }
+
+select { cursor: pointer; }
+select:hover { border-color: #a9cbe8; }
+select:focus-visible { outline: 2px solid #2a6fa8; outline-offset: 2px; }
+@supports (appearance: base-select) {
+  select, select::picker(select) { appearance: base-select; }
+  select { align-items: center; gap: 8px; }
+  select::picker-icon { color: #496786; margin-inline-start: auto; transition: transform .16s; }
+  select:open::picker-icon { transform: rotate(180deg); }
+  select::picker(select) { margin-block: 5px; padding: 4px; border: 1px solid #d4e2f0; border-radius: 12px; background: white; box-shadow: 0 8px 24px #243a5424; }
+  select option { padding: 10px 12px; border-radius: 7px; white-space: normal; }
+  select option:hover, select option:focus-visible { background: var(--blue-soft); }
+  select option:checked { color: #245c88; background: #e6f1fb; font-weight: 600; }
+}
+
+.abertura-opcoes { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.abertura-opcoes.com-paciente { grid-template-columns: minmax(0, 1fr); }
+.abertura-opcoes .cadastro-alternativo { background: var(--blue-soft); border-color: #d4e6f7; }
+.abertura-orientacao { margin: 0 0 16px; line-height: 1.5; }
+.abertura-vazia { margin: 0; padding: 12px; background: var(--bg); border-radius: 8px; }
+.abertura-vazia + #resumo-abertura + .nota-campo { display: none; }

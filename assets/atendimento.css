@@ -1,0 +1,295 @@
+/* Fluxo de chegada, fila ativa e histórico: uma finalidade por tela. */
+.descricao-pagina { color:var(--gray); line-height:1.6; margin:-8px 0 24px; }
+.fluxo-paciente { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; list-style:none; margin:20px 0 24px; padding:0; }
+.fluxo-paciente li { display:flex; align-items:center; gap:9px; padding:12px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:.8rem; color:var(--gray); }
+.fluxo-numero { display:grid; place-items:center; width:26px; height:26px; flex-shrink:0; border-radius:50%; background:var(--bg); font-weight:600; }
+.fluxo-paciente .concluida { background:var(--blue-soft); color:#275c86; }
+.fluxo-paciente .atual { background:var(--coral-soft); color:#a62e36; border-color:#ffc9cc; font-weight:600; }
+.proxima-etapa { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:22px; margin:0 0 20px; border:1px solid #d3e7f8; border-radius:16px; background:var(--blue-soft); }
+.proxima-etapa h2 { font-size:1.1rem; margin-bottom:8px; }
+.proxima-etapa p { line-height:1.6; }
+.proxima-etapa > .btn { flex-shrink:0; }
+.identificacao-atendimento { margin-top:-8px; }
+.acoes-registros { margin-bottom:24px; }
+.acoes-paciente { display:flex; flex-direction:column; align-items:stretch; gap:8px; min-width:145px; }
+.paciente-selecionado h2 { margin:8px 0; }
+.paciente-selecionado { margin-bottom:18px; }
+.nota-campo { color:var(--gray); line-height:1.6; margin-top:18px; }
+.acoes-formulario { margin-bottom:24px; align-items:center; }
+@media(max-width:800px) {
+ .fluxo-paciente { grid-template-columns:1fr; gap:8px; }
+ .fluxo-paciente li { padding:9px 12px; }
+ .proxima-etapa { flex-direction:column; align-items:stretch; }
+ .proxima-etapa > .btn { width:100%; }
+}
+@media(max-width:600px) {
+ .acoes-formulario { flex-direction:column; align-items:stretch; gap:14px; }
+ .acoes-formulario .btn { width:100%; }
+}
+
+/* Listagens de atendimento: alinhamento consistente sem comprimir etiquetas e ações. */
+.page { max-width: 1380px; padding-right: clamp(20px, 3vw, 44px); padding-left: clamp(20px, 3vw, 44px); }
+.tabela-atendimentos table { min-width: 1080px; }
+.tabela-atendimentos th, .tabela-atendimentos td { vertical-align: middle; text-align: center; padding: 16px; }
+.tabela-atendimentos th { white-space: nowrap; }
+.tabela-atendimentos th:nth-child(2), .tabela-atendimentos td:nth-child(2) { text-align: left; min-width: 190px; }
+.tabela-atendimentos td:nth-child(2) { line-height: 1.5; }
+.tabela-atendimentos td:not(:nth-child(2)) { white-space: nowrap; }
+.tabela-atendimentos .badge { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; line-height: 1.4; padding: 6px 12px; }
+.tabela-atendimentos .btn { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; min-height: 40px; padding: 10px 18px; line-height: 1.3; }
+.triagem-celula { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; min-height: 54px; }
+.triagem-situacao { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 600; }
+.triagem-situacao::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.triagem-realizada { color: #1f7a4d; }
+.triagem-pendente { color: #64708a; }
+.triagem-sem-classificacao { color: var(--gray); font-size: .76rem; }
+@media(max-width:600px) { .page { padding-left: 5vw; padding-right: 5vw; } }
+
+/* A abertura é uma tarefa da recepção, com ações contidas no cartão correspondente. */
+.abertura-acoes { margin-top: 24px; margin-bottom: 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.abertura-acoes .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.cadastro-alternativo p { line-height: 1.6; }
+.cadastro-alternativo .actions, .aviso-abertura-acoes { margin-top: 20px; }
+#resumo-abertura:empty { display: none; }
+#resumo-abertura .paciente-selecionado { margin: 20px 0 0; padding: 16px; background: var(--bg); border-radius: 12px; }
+
+/* Gerenciamento recolhido: ações administrativas separadas do registro assistencial. */
+.gerenciamento-atendimento { padding: 0; }
+.gerenciamento-atendimento > summary { display: list-item; cursor: pointer; padding: 22px; list-style-position: inside; }
+.gerenciamento-atendimento > summary::marker { color: var(--gray); }
+.gerenciamento-atendimento > summary > span { display: inline-block; vertical-align: middle; margin-left: 8px; }
+.gerenciamento-atendimento summary strong { display: block; font-size: 1rem; }
+.gerenciamento-atendimento summary small { display: block; color: var(--gray); font-size: .85rem; font-weight: 400; margin-top: 5px; }
+.gerenciamento-atendimento > summary:focus-visible { outline: 3px solid #275c86; outline-offset: 3px; border-radius: 16px; }
+.gerenciamento-atendimento[open] > summary { border-bottom: 1px solid var(--line); }
+.gerenciamento-conteudo { padding: 22px; }
+.gerenciamento-status { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.gerenciamento-explicacao { line-height: 1.6; margin-bottom: 20px; }
+.gerenciamento-acao { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; border-top: 1px solid var(--line); }
+.gerenciamento-acao h3 { font-size: .95rem; margin-bottom: 7px; }
+.gerenciamento-acao p { line-height: 1.6; }
+.gerenciamento-acao > .btn { flex-shrink: 0; white-space: nowrap; min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
+.gerenciamento-nota { padding-top: 18px; border-top: 1px solid var(--line); line-height: 1.6; }
+@media(max-width:600px) {
+  .gerenciamento-acao { flex-direction: column; align-items: stretch; gap: 14px; }
+  .gerenciamento-atendimento summary small { max-width: 210px; line-height: 1.5; }
+}
+
+/* Ajustes de ritmo e agrupamento das ações de medicamentos e consulta. */
+.acoes-medicamento { margin-top: 22px; gap: 12px; }
+.acoes-medicamento .btn, .acoes-etapa .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.form-medicamento .field { margin-bottom: 0; }
+.resumo-consulta .texto-registro { line-height: 1.7; margin-bottom: 22px; }
+.resumo-consulta .card-table { margin-bottom: 0; }
+.contexto-etapa { display: grid; gap: 10px; margin: 0 0 28px; line-height: 1.6; }
+.contexto-paciente { font-weight: 600; }
+.medicamentos-ajuda { line-height: 1.6; margin-bottom: 22px; }
+.adicionar-medicamento-acao { margin-top: 20px; }
+.linha-med { padding: 18px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 14px; }
+.linha-med > button { min-height: 44px; margin-bottom: 0; }
+.acoes-etapa { margin-top: 24px; gap: 14px; }
+/* Manchester: opções nativas acessíveis, com nome, cor e seleção visível. */
+.manchester { border: 0; min-width: 0; }
+.manchester legend { font-size: .85rem; font-weight: 600; margin-bottom: 8px; }
+.manchester-ajuda { line-height: 1.6; margin-bottom: 18px; }
+.manchester-opcoes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.manchester-opcao { position: relative; margin: 0; cursor: pointer; --risco: #65b6fb; --risco-fundo: #eaf5ff; }
+.manchester-vermelho { --risco: #f5a2aa; --risco-fundo: #ffeced; }
+.manchester-laranja { --risco: #ffc08d; --risco-fundo: #fff5ec; }
+.manchester-amarelo { --risco: #f5d77e; --risco-fundo: #fffbed; }
+.manchester-verde { --risco: #9bd8ba; --risco-fundo: #e6f7ee; }
+.manchester-azul { --risco: #9bcef5; --risco-fundo: #eaf5ff; }
+.manchester-opcao input { position: absolute; width: 18px; height: 18px; top: 16px; right: 14px; margin: 0; padding: 0; accent-color: var(--dark); cursor: pointer; }
+.manchester-cartao { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 12px; min-height: 136px; padding: 18px; border: 2px solid var(--line); border-top: 5px solid var(--risco); border-radius: 14px; background: white; transition: border-color .15s, background .15s; }
+.manchester-cor { width: 22px; height: 22px; border-radius: 50%; background: var(--risco); }
+.manchester-nome { font-size: .9rem; }
+.manchester-opcao input:checked + .manchester-cartao { background: var(--risco-fundo); border-color: var(--risco); }
+.manchester-opcao input:focus-visible + .manchester-cartao { outline: 3px solid #275c86; outline-offset: 3px; }
+.manchester-opcao:hover .manchester-cartao { border-color: var(--risco); }
+@media(max-width:800px) { .manchester-opcoes { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+@media(max-width:600px) {
+ .manchester-opcoes { grid-template-columns: repeat(2, minmax(0,1fr)); }
+ .acoes-medicamento, .acoes-etapa { flex-direction: column; align-items: stretch; }
+ .manchester-cartao { min-height: 132px; padding: 14px; }
+}
+
+/* Ação de recepção no cabeçalho das telas internas. */
+.page-head:has(.btn-receber-paciente) { align-items: center; }
+.page-head > .actions { align-items: center; }
+.btn-receber-paciente { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 58px; padding: 15px 28px; font-size: 1.05rem; box-shadow: 0 8px 22px rgba(251,101,106,.3); transition: background .15s, box-shadow .15s; }
+.receber-icone { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,.2); font-size: 1.5rem; font-weight: 400; line-height: 1; }
+.btn-receber-paciente:hover { background: #e95059; border-color: #e95059; box-shadow: 0 10px 26px rgba(251,101,106,.36); }
+@media(max-width:600px) { .page-head:has(.btn-receber-paciente) .actions { width: 100%; } .btn-receber-paciente { width: 100%; } }
+
+/* Descrição permanente da classificação; o rádio identifica a seleção. */
+.manchester-urgencia { min-height: 18px; font-size: .8rem; line-height: 1.4; color: var(--gray); font-weight: 400; }
+
+/* A ação de chegada acompanha a descrição, antes dos indicadores. */
+.painel-acoes-principais { display: flex; justify-content: flex-end; align-items: center; margin: 0 0 28px; }
+@media(max-width:600px) { .painel-acoes-principais .btn-receber-paciente { width: 100%; } }
+
+
+/* Cabeçalho do painel: textos e ação alinhados próximos aos indicadores. */
+.painel-cabecalho { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; padding-top: 0; margin-bottom: 28px; }
+.painel-cabecalho-textos { flex: 1; min-width: 0; }
+.painel-cabecalho .page-head { margin-bottom: 14px; }
+.painel-cabecalho .page-head > .actions:empty { display: none; }
+.painel-cabecalho .descricao-pagina { margin: 0; }
+.painel-cabecalho .painel-acoes-principais { margin: 0; flex-shrink: 0; }
+@media(max-width:800px) { .painel-cabecalho { flex-direction: column; align-items: stretch; padding-top: 0; gap: 22px; } .painel-cabecalho .painel-acoes-principais { width: 100%; } }
+
+/* A ação principal compartilha o centro da quarta coluna de indicadores. */
+@media(min-width:801px) {
+ .painel-cabecalho { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: end; }
+ .painel-cabecalho-textos { grid-column: 1 / 4; }
+ .painel-cabecalho .painel-acoes-principais { grid-column: 4; justify-content: center; min-width: 0; }
+ .painel-cabecalho .btn-receber-paciente { max-width: 100%; padding-left: 20px; padding-right: 20px; }
+}
+
+/* Ajuste fino da ação principal em relação ao título e subtítulo. */
+@media(min-width:801px) {
+ .painel-cabecalho .painel-acoes-principais { transform: translateY(10px); }
+}
+
+/* Administração de usuários separada da navegação de atendimento. */
+.nav-conta { display: flex; align-items: center; gap: 10px; }
+.nav-usuarios.active { background: var(--blue-soft); border-color: #b6dafa; color: #275c86; }
+@media(max-width:600px) { .nav-conta { margin-left: auto; flex-wrap: wrap; justify-content: flex-end; } }
+
+/* Colunas laterais iguais mantêm o menu centralizado na página. */
+@media(min-width:1001px) {
+ .nav-sistema { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); column-gap: 20px; }
+ .nav-sistema > .logo { justify-self: start; }
+ .nav-sistema > .nav-operacao { justify-self: center; }
+ .nav-sistema > .nav-conta { justify-self: end; }
+}
+@media(min-width:601px) and (max-width:1000px) {
+ .nav-sistema > .logo { order: 1; }
+ .nav-sistema > .nav-conta { order: 2; margin-left: auto; }
+ .nav-sistema > .links { order: 3; flex-basis: 100%; justify-content: center; }
+}
+
+/* Reserva o espaço da rolagem para evitar saltos horizontais entre páginas. */
+
+/* Marca oficial compartilhada por todas as telas, sem alterar sua proporção. */
+.logo { flex-shrink: 0; line-height: 0; }
+.logo-imagem { display: block; width: 164px; height: 54px; object-fit: cover; object-position: center; }
+@media(max-width:600px) { .logo-imagem { width: 140px; height: 48px; } }
+
+.indicadores-fila { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media(max-width:600px) { .indicadores-fila { grid-template-columns: 1fr; } }
+
+/* Abas centralizadas e saída à direita. */
+.logo-imagem { width: 146px; height: 46px; object-fit: contain; }
+.nav-operacao { display: flex; align-items: center; justify-content: center; gap: 14px; min-width: 0; }
+@media(min-width:601px) and (max-width:1000px) {
+  .nav-sistema > .nav-operacao { order: 3; flex-basis: 100%; justify-content: center; }
+}
+@media(max-width:600px) {
+  .logo-imagem { width: 122px; height: 38px; }
+  .nav-sistema > .nav-operacao { order: 2; flex-basis: 100%; flex-wrap: wrap; gap: 10px; }
+  .nav-operacao .menu-toggle { min-height: 42px; }
+  .nav-sistema > .nav-conta { margin-left: auto; }
+}
+
+/* A confirmação usa uma linha própria para as ações, alinhada ao texto. */
+.proxima-etapa.abertura-confirmada { flex-direction: column; align-items: stretch; gap: 18px; }
+.abertura-confirmada .actions { gap: 12px; }
+.abertura-confirmada .actions .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; }
+
+.acoes-formulario-paciente > .btn { display: inline-flex; align-items: center; justify-content: center; }
+
+.resumo-queixas { margin-top: 20px; }
+.resumo-queixas h3 { margin: 0 0 8px; font-size: .95rem; font-weight: 600; color: var(--dark); }
+.resumo-queixas p { margin: 0; margin-inline-start: -5px; padding: 12px 11px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.acoes-atendimento { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+
+/* Filtros e tabela compartilham a mesma superfície no Painel. */
+.card.fila-painel { padding: 0; min-width: 0; }
+.filtros-fila {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(145px, 180px) minmax(145px, 180px);
+  gap: 12px; align-items: end; padding: 14px 18px; border-bottom: 1px solid var(--line);
+}
+.filtros-fila > .field { margin: 0; min-width: 0; }
+.filtros-fila label { margin-bottom: 4px; color: var(--gray); }
+.filtros-fila input, .filtros-fila select { min-height: 38px; padding: 7px 10px; border-radius: 8px; font-size: .85rem; }
+.fila-painel #lista { min-width: 0; }
+.fila-painel #lista > .card-table { border: 0; margin: 0; border-radius: 0 0 16px 16px; }
+@media(max-width:640px) {
+  .filtros-fila { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px; gap: 8px; }
+  .filtros-fila > .field:first-child { grid-column: 1 / -1; }
+}
+
+.nav-sistema > .nav-conta { gap: clamp(12px, 1.6vw, 24px); }
+.nav-conta > [data-acao="sair"] { background: white; border-color: #dde6f0; border-radius: 999px; color: var(--dark); padding-inline: 14px; min-height: 40px; }
+.nav-conta > [data-acao="sair"]:hover { color: var(--dark); text-decoration: underline; }
+@media(max-width:360px) {
+  .nav-sistema .logo-imagem { width: 96px; height: 32px; }
+  .nav-sistema > .nav-conta { gap: 8px; }
+}
+
+/* Listagens em cartões e etapas compactas para telas estreitas. */
+.rotulo-celula, .etapa-curta { display: none; }
+@media (max-width: 1100px) {
+  .listagem-responsiva, .fila-painel #lista > .listagem-responsiva { min-width: 0; overflow: visible; }
+  .listagem-responsiva table, .listagem-responsiva tbody { display: block; width: 100%; min-width: 0; }
+  .listagem-responsiva thead {
+    position: absolute; width: 1px; height: 1px; margin: -1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .listagem-responsiva tbody tr {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 12px; padding: 16px; border-bottom: 1px solid var(--line);
+  }
+  .listagem-responsiva tbody tr:last-child { border-bottom: 0; }
+  .listagem-responsiva tbody tr > td:nth-child(n) {
+    display: block; min-width: 0; padding: 0; border: 0;
+    white-space: normal; text-align: left; overflow-wrap: anywhere;
+  }
+  .listagem-responsiva tbody td:last-child, .listagem-responsiva .listagem-vazia td { grid-column: 1 / -1; }
+  .listagem-responsiva:not(.tabela-atendimentos) tbody td:first-child { grid-column: 1 / -1; font-weight: 600; }
+  .tabela-atendimentos tbody td:nth-child(2) { font-weight: 600; }
+  .rotulo-celula { display: block; margin-bottom: 4px; color: var(--gray); font-size: .75rem; font-weight: 600; }
+  .listagem-responsiva .acoes-atendimento, .listagem-responsiva .acoes-paciente {
+    display: flex; flex-direction: row; flex-wrap: wrap; min-width: 0; gap: 8px;
+  }
+  .listagem-responsiva .acoes-atendimento a, .listagem-responsiva .acoes-paciente a { flex: 1 1 auto; }
+  .listagem-responsiva .btn {
+    min-height: 44px; max-width: 100%; white-space: normal;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .listagem-responsiva .triagem-celula { align-items: flex-start; min-height: 0; gap: 4px; }
+}
+@media (max-width: 800px) {
+  .etapa-nome {
+    position: absolute; width: 1px; height: 1px; margin: -1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .fluxo-paciente { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin: 16px 0; }
+  .fluxo-paciente li { flex-direction: column; text-align: center; padding: 6px 2px; gap: 4px; }
+  .etapa-curta { display: block; width: 100%; font-size: .68rem; line-height: 1.2; overflow-wrap: anywhere; }
+}
+@media (max-width: 600px) {
+  .nav.nav-sistema { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; }
+  .nav-sistema > .logo { grid-area: 1 / 1; }
+  .nav-sistema > .nav-operacao, .nav-sistema > .nav-conta { display: contents; }
+  .nav-sistema .menu-toggle { grid-area: 1 / 2; }
+  .nav-sistema [data-acao="sair"] { grid-area: 1 / 3; }
+  .nav-sistema #menu { grid-area: 2 / 1 / 3 / -1; justify-content: center; min-width: 0; }
+  .nav-sistema .menu-toggle, .nav-sistema .nav-conta [data-acao="sair"] { min-height: 44px; }
+  .nav-sistema #menu a { min-height: 44px; display: inline-flex; align-items: center; padding-inline: 12px; }
+  .page { padding-block: 20px 28px; }
+  .page-head { gap: 10px; margin-bottom: 16px; }
+  .card:not(.card-table):not(.fila-painel), .proxima-etapa { padding: 16px; }
+  .indicadores-fila { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 12px; }
+  .indicadores-fila > .card.stat { padding: 8px 6px; margin: 0; overflow-wrap: anywhere; }
+  .indicadores-fila .stat span { font-size: .72rem; display: block; }
+  main input:not([type="radio"]):not([type="checkbox"]), main select, main textarea,
+  .filtros-fila input, .filtros-fila select { font-size: 16px; min-height: 44px; min-width: 0; }
+  main .form-etapa > .actions, .abertura-confirmada > .actions, .acoes-formulario-paciente { flex-wrap: wrap; gap: 8px; }
+  main .form-etapa > .actions > .btn, .abertura-confirmada > .actions > .btn, .acoes-formulario-paciente > .btn {
+    flex: 1 1 130px; display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+  }
+  .manchester-opcoes { gap: 8px; }
+}
