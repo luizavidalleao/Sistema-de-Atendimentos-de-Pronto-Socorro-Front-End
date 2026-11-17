@@ -152,20 +152,16 @@
 }
 
 /* Administração de usuários separada da navegação de atendimento. */
-.nav-conta { display: flex; align-items: center; gap: 10px; }
 .nav-usuarios.active { background: var(--blue-soft); border-color: #b6dafa; color: #275c86; }
-@media(max-width:600px) { .nav-conta { margin-left: auto; flex-wrap: wrap; justify-content: flex-end; } }
 
 /* Colunas laterais iguais mantêm o menu centralizado na página. */
 @media(min-width:1001px) {
  .nav-sistema { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); column-gap: 20px; }
  .nav-sistema > .logo { justify-self: start; }
  .nav-sistema > .nav-operacao { justify-self: center; }
- .nav-sistema > .nav-conta { justify-self: end; }
 }
 @media(min-width:601px) and (max-width:1000px) {
  .nav-sistema > .logo { order: 1; }
- .nav-sistema > .nav-conta { order: 2; margin-left: auto; }
  .nav-sistema > .links { order: 3; flex-basis: 100%; justify-content: center; }
 }
 
@@ -189,7 +185,6 @@
   .logo-imagem { width: 122px; height: 38px; }
   .nav-sistema > .nav-operacao { order: 2; flex-basis: 100%; flex-wrap: wrap; gap: 10px; }
   .nav-operacao .menu-toggle { min-height: 42px; }
-  .nav-sistema > .nav-conta { margin-left: auto; }
 }
 
 /* A confirmação usa uma linha própria para as ações, alinhada ao texto. */
@@ -221,12 +216,8 @@
   .filtros-fila > .field:first-child { grid-column: 1 / -1; }
 }
 
-.nav-sistema > .nav-conta { gap: clamp(12px, 1.6vw, 24px); }
-.nav-conta > [data-acao="sair"] { background: white; border-color: #dde6f0; border-radius: 999px; color: var(--dark); padding-inline: 14px; min-height: 40px; }
-.nav-conta > [data-acao="sair"]:hover { color: var(--dark); text-decoration: underline; }
 @media(max-width:360px) {
   .nav-sistema .logo-imagem { width: 96px; height: 32px; }
-  .nav-sistema > .nav-conta { gap: 8px; }
 }
 
 /* Listagens em cartões e etapas compactas para telas estreitas. */
@@ -271,13 +262,12 @@
   .etapa-curta { display: block; width: 100%; font-size: .68rem; line-height: 1.2; overflow-wrap: anywhere; }
 }
 @media (max-width: 600px) {
-  .nav.nav-sistema { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; }
+  .nav.nav-sistema { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
   .nav-sistema > .logo { grid-area: 1 / 1; }
-  .nav-sistema > .nav-operacao, .nav-sistema > .nav-conta { display: contents; }
+  .nav-sistema > .nav-operacao { display: contents; }
   .nav-sistema .menu-toggle { grid-area: 1 / 2; }
-  .nav-sistema [data-acao="sair"] { grid-area: 1 / 3; }
   .nav-sistema #menu { grid-area: 2 / 1 / 3 / -1; justify-content: center; min-width: 0; }
-  .nav-sistema .menu-toggle, .nav-sistema .nav-conta [data-acao="sair"] { min-height: 44px; }
+  .nav-sistema .menu-toggle { min-height: 44px; }
   .nav-sistema #menu a { min-height: 44px; display: inline-flex; align-items: center; padding-inline: 12px; }
   .page { padding-block: 20px 28px; }
   .page-head { gap: 10px; margin-bottom: 16px; }
@@ -292,4 +282,28 @@
     flex: 1 1 130px; display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
   }
   .manchester-opcoes { gap: 8px; }
+}
+
+
+/* A ação das três listagens acompanha a linha do subtítulo. */
+.page-head.cabecalho-listagem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 24px;
+  row-gap: 8px;
+}
+.cabecalho-listagem h1 { grid-column: 1 / -1; }
+.cabecalho-listagem .descricao-pagina { margin: 0; }
+.cabecalho-listagem > .actions { margin-inline-end: clamp(0px, 5vw - 32px, 64px); }
+.cabecalho-listagem .btn-receber-paciente {
+  min-height: 46px;
+  padding: 9px 18px;
+  gap: 8px;
+  font-size: .95rem;
+  box-shadow: 0 5px 14px #fb656a3d;
+}
+.cabecalho-listagem .receber-icone { width: 22px; height: 22px; font-size: 1.15rem; }
+@media (max-width: 760px) {
+  .page-head.cabecalho-listagem { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  .cabecalho-listagem > .actions { margin-inline-end: 0; }
 }

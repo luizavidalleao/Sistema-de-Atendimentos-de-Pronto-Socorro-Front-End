@@ -40,7 +40,7 @@
     // Falha de escrita não pode ser anunciada como cadastro concluído.
     localStorage.setItem(chave, JSON.stringify(dados));
   };
-  const idCampo = tabela => ({pacientes:'id_paciente',atendimentos:'id_atendimento',triagens:'id_triagem',consultas:'id_consulta',usuarios:'id_usuario'})[tabela];
+  const idCampo = tabela => ({pacientes:'id_paciente',atendimentos:'id_atendimento',triagens:'id_triagem',consultas:'id_consulta'})[tabela];
   const existe = (t,c,v) => dados[t].some(x => x[c] === v);
   function validar(t,r) {
     const obrigar = (v,m) => {if (!v) throw Error(m);};
@@ -53,11 +53,6 @@
       obrigar(/^\d{4}-\d{2}-\d{2}$/.test(r.data_nascimento) && Number(r.data_nascimento.slice(0,4))>=1000 && !isNaN(Date.parse(r.data_nascimento)) && new Date(r.data_nascimento).toISOString().slice(0,10)===r.data_nascimento,'Data de nascimento inválida.');
       for (const [c,n] of Object.entries({cpf:11,rg:20,nome_pai:200,nome_mae:200,logradouro:150,numero:10,bairro:100,cidade:100,estado:2,cep:8})) texto(c,n);
       if (r.cpf && dados.pacientes.some(x=>x.cpf===r.cpf && x.id_paciente!==r.id_paciente)) throw Error('CPF já cadastrado.');
-    }
-    if (t==='usuarios') {
-      texto('nome_completo',150,true); texto('email',100,true);
-      obrigar(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email),'E-mail inválido.');
-      if(dados.usuarios.some(x=>x.email.toLowerCase()===r.email.toLowerCase() && x.id_usuario!==r.id_usuario)) throw Error('E-mail já cadastrado.');
     }
     if(t==='atendimentos') {
       obrigar(existe('pacientes','id_paciente',r.id_paciente),'Paciente não encontrado.');
@@ -109,17 +104,6 @@
       const consulta = gravar('consultas', r);
       gravar('atendimentos', {...a, status:'FINALIZADO', data_hora_saida:new Date().toISOString()});
       return consulta;
-    }),
-    cadastrarUsuario: r => transacao(()=> {
-      const u=gravar('usuarios',r);
-      dados.confirmacoes_demo.push({id_usuario:u.id_usuario,confirmado:false});
-      return u;
-    }),
-    confirmar: id => transacao(()=> {
-      const c=dados.confirmacoes_demo.find(x=>x.id_usuario===id);
-      if(!c) throw Error('Nenhum cadastro de demonstração pendente.');
-      if(c.confirmado) throw Error('Demonstração já confirmada.');
-      c.confirmado=true;
     }),
     reiniciar: () => transacao(()=> {dados=VihvaCenario();})
   };

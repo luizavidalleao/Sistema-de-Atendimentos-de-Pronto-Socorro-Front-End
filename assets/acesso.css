@@ -1,159 +1,48 @@
-/* Login: ação principal única e controle de visibilidade junto à senha. */
-.auth-login { align-items: center; }
-.login-heading { margin-bottom: 26px; }
-.auth-login h1 { font-size: 2rem; line-height: 1.2; margin-bottom: 10px; }
-.auth-login .login-heading .muted { margin-bottom: 0; line-height: 1.5; }
-.login-form > .field { margin-bottom: 20px; }
-.login-password { margin-bottom: 26px; }
-.login-password .field { margin-bottom: 9px; }
-.senha-visibilidade { display: inline-flex; align-items: center; gap: 7px; margin: 0; font-size: .8rem; font-weight: 400; color: var(--gray); cursor: pointer; }
-.senha-visibilidade input { width: 14px; height: 14px; margin: 0; padding: 0; accent-color: var(--coral); cursor: pointer; }
-.login-cadastro { margin-top: 24px; text-align: center; color: var(--gray); font-size: .86rem; line-height: 1.6; }
-@media (max-width: 600px) { .auth-login { padding: 28px 5vw; } .auth-login h1 { font-size: 1.75rem; } }
-
-/* Confirmação: ações alinhadas em uma coluna, com hierarquia e respiro. */
-.auth-confirmacao { align-items: center; }
-.auth-confirmacao h1 { font-size: 1.8rem; line-height: 1.25; margin-bottom: 12px; }
-.auth-confirmacao .confirmacao-descricao { line-height: 1.6; margin-bottom: 28px; }
-.confirmacao-acoes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-.confirmacao-acoes .btn { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 20px; }
-#titulo-confirmacao:focus { outline: none; }
-@media(max-width:600px) {
-  .auth-confirmacao { padding: 28px 5vw; }
-  .auth-confirmacao h1 { font-size: 1.6rem; }
+.pagina-boas-vindas { background: #f3f6fd; }
+.boas-vindas {
+  display: grid;
+  align-items: start;
+  min-height: 100svh;
+  padding: clamp(28px, 6.5vh, 72px) 0 clamp(88px, 15vh, 150px);
+  background: #f3f6fd url("acesso-ilustracao.svg") right bottom / cover no-repeat;
 }
-
-/* Cadastro: confirmação primeiro e cancelamento abaixo, sem quebra irregular. */
-.cadastro-acoes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-.cadastro-acoes .btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; }
-
-.auth > .card.acesso-painel { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1fr); max-width: 880px; width: 100%; overflow: hidden; padding: 0; }
-.acesso-painel > #mensagem { grid-column: 1 / -1; margin: 12px 16px 0; }
-.acesso-painel > #tela { padding: clamp(24px, 4vw, 44px); min-width: 0; }
-.acesso-marca { padding: clamp(24px, 4vw, 40px); background: var(--blue-soft); display: flex; flex-direction: column; justify-content: center; }
-.acesso-marca img { width: 124px; height: auto; display: block; margin-bottom: 28px; }
-.acesso-marca .acesso-frase { color: #245c88; font-size: .8rem; font-weight: 700; margin: 0 0 12px; }
-.acesso-marca h2 { font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1.18; margin: 0 0 12px; }
-.acesso-marca p { color: var(--gray); line-height: 1.5; margin: 0; }
-.acesso-painel:has(.cadastro-acoes) h1 { margin-bottom: 10px; }
-.acesso-painel:has(.cadastro-acoes) #tela > .muted { margin-bottom: 20px; }
-.login-password input::-ms-reveal, .login-password input::-ms-clear { display: none; }
-
-@media (max-width: 700px) {
-  .abertura-opcoes { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .auth > .card.acesso-painel { grid-template-columns: minmax(0, 1fr); }
-  .acesso-marca { padding: 20px; }
-  .acesso-marca img { width: 102px; margin-bottom: 12px; }
-  .acesso-marca h2 { font-size: 1.25rem; margin-bottom: 6px; }
-  .acesso-marca .acesso-frase { margin-bottom: 5px; }
-  .acesso-painel > #tela { padding: 20px; }
-  .nav .logo-imagem { width: 103px; height: 33px; }
+.boas-vindas-conteudo { width: min(76%, 1340px); margin-inline: auto; }
+.boas-vindas-logo {
+  display: block;
+  width: clamp(150px, 14vw, 245px);
+  height: auto;
+  margin-inline-start: -8px;
 }
-
-/* Entrada e cadastro: apresentação em duas colunas inspirada na referência visual. */
-.pagina-acesso {
-  background: var(--bg);
+.boas-vindas-texto { margin-top: clamp(36px, 10vh, 112px); }
+.boas-vindas-texto h1 {
+  font-size: clamp(2.75rem, 5.35vw, 6rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+  color: #1e2e40;
 }
-.pagina-acesso .auth { background: transparent; align-items: center; padding: clamp(28px, 5vw, 72px) 5vw; }
-.pagina-acesso .auth > .card.acesso-painel {
-  grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1060px;
-  border-radius: 28px; min-height: 470px; background: #ffffffee;
-  border: 1px solid #fff; box-shadow: 0 20px 55px #344d8430;
+.boas-vindas-texto p {
+  max-width: 33ch;
+  margin: clamp(18px, 3.4vh, 36px) 0 clamp(24px, 5vh, 52px);
+  font-size: clamp(1.13rem, 1.8vw, 2rem);
+  line-height: 1.35;
+  color: #465b75;
 }
-.pagina-acesso .acesso-marca {
-  background: url("acesso-ilustracao.svg") center bottom / cover no-repeat var(--blue-soft);
-  padding: clamp(30px, 5vw, 64px);
+.boas-vindas-texto .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  min-height: clamp(52px, 8vh, 74px);
+  min-width: clamp(164px, 15vw, 250px);
+  font-size: clamp(1.1rem, 1.7vw, 1.85rem);
+  box-shadow: 0 14px 28px #fb656a35;
 }
-.acesso-copy { max-width: 350px; }
-.pagina-acesso .acesso-marca .acesso-frase { color: #536681; font-size: 1rem; padding-inline-start: 11px; border-inline-start: 4px solid var(--coral); margin-bottom: 20px; }
-.pagina-acesso .acesso-copy h2 { font-size: clamp(2rem, 3.2vw, 2.8rem); line-height: 1.13; margin-bottom: 16px; }
-.pagina-acesso .acesso-copy > p:last-child { font-size: clamp(1rem, 1.65vw, 1.17rem); }
-.pagina-acesso .acesso-painel > #tela { padding: clamp(28px, 4vw, 48px); }
-.abas-acesso { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid #d5e2f1; border-radius: 999px; margin-bottom: 24px; }
-.abas-acesso a { display: grid; place-items: center; min-height: 44px; border-radius: 999px; font-weight: 700; color: var(--gray); }
-.abas-acesso a:hover { background: var(--blue-soft); color: var(--dark); }
-.abas-acesso a[aria-current="page"] { background: var(--coral-soft); color: #b72d42; }
-.abas-acesso a:focus-visible { outline: 2px solid #2a6fa8; outline-offset: 2px; }
-.pagina-acesso .footer { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(8px, 1.5vw, 24px); width: 90%; max-width: 1060px; margin-inline: auto; padding-inline: 0; border: 0; background: transparent; }
-.pagina-acesso .footer::before, .pagina-acesso .footer::after { content: ''; height: 1px; background: #d5e0ef; }
-.assinatura-acesso { display: flex; align-items: baseline; justify-content: center; gap: 8px; white-space: nowrap; }
-.assinatura-acesso > span + span::before { content: '·'; margin-inline-end: 8px; }
-@media (max-width: 700px) {
-  .pagina-acesso .auth > .card.acesso-painel { grid-template-columns: minmax(0, 1fr); min-height: 0; border-radius: 20px; }
-  .pagina-acesso .acesso-marca { padding: 20px; background-size: 72% auto, auto, auto; background-position: right bottom, center, center; }
-  .pagina-acesso .acesso-copy h2 { font-size: 1.45rem; margin-bottom: 7px; }
-  .pagina-acesso .acesso-copy > p:last-child { font-size: .9rem; }
-  .pagina-acesso .acesso-marca .acesso-frase { font-size: .8rem; margin-bottom: 8px; }
-  .pagina-acesso .acesso-painel > #tela { padding: 20px; }
-  .abas-acesso { margin-bottom: 18px; }
+@media (max-width: 760px) {
+  .boas-vindas {
+    padding-block: clamp(28px, 6vh, 64px) 58vw;
+    background-size: auto 49vw;
+  }
+  .boas-vindas-conteudo { width: 86%; }
+  .boas-vindas-texto { margin-top: clamp(34px, 8vh, 68px); }
+  .boas-vindas-texto h1 { font-size: clamp(2.15rem, 8vw, 4rem); }
 }
-
-/* O foco no conteúdo ao usar o atalho não deve contornar a página inteira. */
-.pagina-acesso #conteudo:focus { outline: none; }
-
-/* As duas telas de acesso usam a mesma escala, inclusive em janelas baixas. */
-.pagina-acesso .auth { padding-block: clamp(12px, 3vh, 28px); }
-.pagina-acesso .auth > .card.acesso-painel { max-width: 960px; min-height: 430px; }
-.pagina-acesso .acesso-painel > #tela { padding: 24px clamp(24px, 3vw, 38px); align-self: center; }
-.pagina-acesso .abas-acesso { margin-bottom: 16px; }
-.pagina-acesso .abas-acesso a { min-height: 40px; }
-.pagina-acesso .login-heading { margin-bottom: 16px; }
-.pagina-acesso .field, .pagina-acesso .login-form > .field { margin-bottom: 10px; }
-.pagina-acesso .field input { padding-block: 9px; }
-.pagina-acesso .login-password { margin-bottom: 16px; }
-.pagina-acesso .login-password .field { margin-bottom: 5px; }
-.pagina-acesso .login-cadastro { margin-top: 14px; }
-.pagina-acesso .acesso-painel:has(.cadastro-acoes) #tela > .muted { margin-bottom: 12px; }
-.pagina-acesso .cadastro-acoes { gap: 8px; }
-.pagina-acesso .footer { padding-block: 12px; }
-@media (min-width: 701px) {
-  .pagina-acesso .acesso-painel:has(.cadastro-acoes) #form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
-  .pagina-acesso .acesso-painel:has(.cadastro-acoes) #form > :is(.field:nth-child(-n+2), .cadastro-acoes) { grid-column: 1 / -1; }
-  .pagina-acesso .cadastro-acoes { grid-template-columns: minmax(0, 1fr) auto; }
-  .pagina-acesso .cadastro-acoes .btn { min-width: 0; padding-inline: 12px; }
-}
-@media (min-width: 701px) and (max-height: 690px) {
-  .pagina-acesso > .nav { padding-block: 8px; }
-  .pagina-acesso .auth { padding-block: 10px; }
-  .pagina-acesso .auth > .card.acesso-painel { min-height: 388px; }
-  .pagina-acesso .acesso-painel > #tela { padding-block: 16px; }
-  .pagina-acesso .footer { padding-block: 8px; }
-}
-@media (max-width: 700px) {
-  .pagina-acesso .auth > .card.acesso-painel { min-height: 0; }
-  .pagina-acesso .acesso-painel > #tela { padding: 20px; }
-}
-
-/* Altura compartilhada: o formulário não redimensiona o cartão ao trocar de aba. */
-.pagina-acesso .auth > .card.acesso-painel {
-  --altura-acesso: 520px;
-  block-size: var(--altura-acesso);
-  min-block-size: 0;
-  grid-template-rows: minmax(0, 1fr);
-}
-.pagina-acesso .acesso-painel > #tela { align-self: stretch; min-block-size: 0; overflow-y: auto; }
-.pagina-acesso #tela > #mensagem { margin: 0 0 12px; }
-@media (min-width: 701px) and (max-height: 690px) {
-  .pagina-acesso .auth > .card.acesso-painel { --altura-acesso: 490px; }
-}
-@media (min-width: 701px) and (max-width: 850px) {
-  .pagina-acesso .acesso-painel > #tela { padding-inline: 20px; }
-}
-@media (min-width: 701px) and (max-width: 850px) and (max-height: 690px) {
-  .pagina-acesso .auth { padding-block: 6px; }
-  .pagina-acesso .auth > .card.acesso-painel { --altura-acesso: 500px; }
-}
-@media (max-width: 700px) {
-  .pagina-acesso .auth > .card.acesso-painel { --altura-acesso: 790px; grid-template-rows: 174px minmax(0, 1fr); }
-}
-@media (max-width: 360px) {
-  .pagina-acesso .auth > .card.acesso-painel { --altura-acesso: 830px; }
-}
-
-.pagina-acesso > .nav { flex-wrap: nowrap; gap: 8px; }
-.pagina-acesso > .nav .btn { white-space: nowrap; }
-@media (max-width: 360px) {
-  .pagina-acesso > .nav .logo-imagem { width: 90px; height: 30px; }
-}
-
-.pagina-acesso .acesso-painel:has(.cadastro-acoes) #form-acesso > .muted { margin-bottom: 12px; }

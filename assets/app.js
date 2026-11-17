@@ -9,7 +9,6 @@
   const cores=['VERMELHO','LARANJA','AMARELO','VERDE','AZUL'];
   const data=v=>v?new Date(v.length===10?v+'T12:00:00':v).toLocaleString('pt-BR',v.length===10?{dateStyle:'short'}:{dateStyle:'short',timeStyle:'short'}):'—';
   const link=(href,texto,ghost=false)=>`<a class="btn ${ghost?'btn-ghost':''} btn-small" href="${href}">${texto}</a>`;
-  const botao=(acao,texto,valor='',ghost=true)=>`<button type="button" class="btn ${ghost?'btn-ghost':''} btn-small" data-acao="${acao}" data-valor="${escape(valor)}">${texto}</button>`;
   const campo=(nome,rotulo,tipo='text',valor='',extras='')=>`<div class="field"><label for="${nome}">${rotulo}</label><input id="${nome}" name="${nome}" type="${tipo}" value="${escape(valor)}" ${extras}></div>`;
   const selecao=(nome,rotulo,opcoes,valor='',vazio='Selecione')=>`<div class="field"><label for="${nome}">${rotulo}</label><select id="${nome}" name="${nome}"><option value="">${vazio}</option>${opcoes.map(([v,n])=>`<option value="${escape(v)}" ${String(v)===String(valor)?'selected':''}>${escape(n)}</option>`).join('')}</select></div>`;
   const texto=(nome,rotulo,valor='')=>`<div class="field"><label for="${nome}">${rotulo}</label><textarea id="${nome}" name="${nome}">${escape(valor)}</textarea></div>`;
@@ -24,7 +23,7 @@
       + cabecalho + '</tr></thead><tbody role="rowgroup">' + corpo + '</tbody></table></div>';
   };
   const badge=v=>`<span class="badge ${v==='EM_ANDAMENTO'?'andamento':(v||'aberto').toLowerCase()}">${escape(nomes[v]||'Sem triagem')}</span>`;
-  const titulo=(t,acoes='')=>`<div class="page-head"><h1>${t}</h1><div class="actions">${acoes}<a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a></div></div>`;
+  const titulo=(t,acoes='',descricao='')=>`<div class="page-head${descricao ? ' cabecalho-listagem' : ''}"><h1>${t}</h1>${descricao ? `<p class="descricao-pagina">${descricao}</p>` : ''}<div class="actions">${acoes}<a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a></div></div>`;
   const form=(conteudo,cancelar,label='Salvar')=>`<form id="form">${conteudo}<div class="actions">${link(cancelar,'Cancelar',true)}<button class="btn" type="submit">${label}</button></div></form>`;
   const cartao=(t,c)=>`<section class="card"><h2>${t}</h2>${c}</section>`;
   function aviso(m,erro=false) {const el=$('#mensagem'); el.textContent=m; el.className='alert '+(erro?'erro':'ok'); el.hidden=false; el.focus();}
@@ -35,29 +34,12 @@
   const paciente=id=>R.obter('pacientes',id);
   const triagem=id=>procurar('triagens').find(x=>x.id_atendimento===id);
   function registro(t) {if(!Number.isInteger(id)||id<1) throw Error('Selecione um registro na listagem.'); const r=R.obter(t,id); if(!r) throw Error('Registro não encontrado. Volte à listagem.'); return r;}
-  let sessao;
-  try {sessao=JSON.parse(sessionStorage.getItem(VihvaConfig.sessao)||'null');} catch {sessao=null;}
-  // Os endereços antigos continuam funcionando, mas as abas usam o mesmo documento.
-  if (pagina === 'cadastro.html' || pagina === 'index.html') {
-    location.replace(pagina === 'cadastro.html' ? 'login.html?aba=cadastro' : 'login.html');
-    return;
-  }
-  const telaLogin = pagina === 'login.html';
-  const telaConfirmacao=pagina==='confirmar-cadastro.html';
-  const publico=['login.html','cadastro.html','confirmar-cadastro.html','index.html'].includes(pagina);
-  if (!publico) document.body.classList.add('pagina-sistema');
+  document.body.classList.add('pagina-sistema');
   const menu=[['painel.html','Painel'],['pacientes.html','Pacientes'],['atendimentos.html','Histórico']];
-  const ativo=({'paciente-form.html':'pacientes.html','novo-atendimento.html':'atendimentos.html','triagem.html':'atendimentos.html','consulta.html':'atendimentos.html','atendimento.html':'atendimentos.html'})[pagina]||pagina;
-  document.body.innerHTML=`<a class="pular" href="#conteudo">Ir para o conteúdo</a><nav class="nav ${publico?'':'nav-sistema'}" aria-label="Navegação principal"><a class="logo" href="${publico?'login.html':'painel.html'}"><img class="logo-imagem" src="assets/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a>${publico?(telaLogin?'':link('login.html','Entrar',true)):`<div class="nav-operacao"><button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button><div class="links" id="menu">${menu.map(([h,t])=>`<a href="${h}" ${h===ativo?'class="active" aria-current="page"':''}>${t}</a>`).join('')}</div></div><div class="nav-conta">${botao('sair','Sair')}</div>`}</nav><main id="conteudo" tabindex="-1" ${publico?`class="auth ${telaLogin?'auth-login':telaConfirmacao?'auth-confirmacao':''}"`:''}><div class="${publico?'card':'page'}"><p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p><div id="tela"></div></div></main><footer class="footer"><span>Vihva</span><span>Juntos pela vida <b aria-label="amor">♥</b></span></footer>`;
-  const tela=html=>{($('#form-acesso') || $('#tela')).innerHTML=html;};
-  document.addEventListener('click',e=>{
-    const b=e.target.closest('[data-acao]'); if(!b)return;
-    const a=b.dataset.acao;
-    if(a==='sair') tentar(()=>{sessionStorage.removeItem(VihvaConfig.sessao); location.href='login.html';});
-  });
+  const ativo=({'paciente-form.html':'pacientes.html','triagem.html':'atendimentos.html','consulta.html':'atendimentos.html','atendimento.html':'atendimentos.html'})[pagina]||pagina;
+  document.body.innerHTML=`<a class="pular" href="#conteudo">Ir para o conteúdo</a><nav class="nav nav-sistema" aria-label="Navegação principal"><a class="logo" href="index.html"><img class="logo-imagem" src="assets/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a><div class="nav-operacao"><button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button><div class="links" id="menu">${menu.map(([h,t])=>`<a href="${h}" ${h===ativo?'class="active" aria-current="page"':''}>${t}</a>`).join('')}</div></div></nav><main id="conteudo" tabindex="-1"><div class="page"><p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p><div id="tela"></div></div></main><footer class="footer"><span>Vihva</span><span>Juntos pela vida <b aria-label="amor">♥</b></span></footer>`;
+  const tela=html=>{$('#tela').innerHTML=html;};
   $('.menu-toggle')?.addEventListener('click',e=>{const aberto=e.target.getAttribute('aria-expanded')!=='true'; e.target.setAttribute('aria-expanded',String(aberto)); $('#menu').classList.toggle('expandido',aberto);});
-  function senhaValida(s) {if(!s || new TextEncoder().encode(s).length>72) throw Error('Informe uma senha com até 72 bytes.');}
-  function autenticarDemo(usuario) {sessionStorage.setItem(VihvaConfig.sessao,JSON.stringify({id_usuario:usuario.id_usuario})); sessionStorage.removeItem('vihva.demo.aviso'); location.href='painel.html';}
   function filtros(html,renderizar) {$('#filtros').innerHTML=html; $('#filtros').addEventListener('input',renderizar); renderizar();}
   const normalizar=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   function corresponde(valores,busca) {return valores.some(v=>normalizar(v).includes(normalizar(busca)));}
@@ -95,10 +77,9 @@
     base.sort((a, b) => painel
       ? Date.parse(a.data_hora_chegada) - Date.parse(b.data_hora_chegada) || a.id_atendimento - b.id_atendimento
       : Date.parse(b.data_hora_chegada) - Date.parse(a.data_hora_chegada) || b.id_atendimento - a.id_atendimento);
-    let cabecalho = titulo(painel ? 'Painel de atendimentos' : 'Histórico de atendimentos');
-    cabecalho += '<p class="descricao-pagina">' + (painel
+    let cabecalho = titulo(painel ? 'Painel de atendimentos' : 'Histórico de atendimentos', '', painel
       ? 'Consulte atendimentos abertos com triagens ou consultas pendentes. Atendimentos encerrados são registrados no histórico.'
-      : 'Consulte todos os atendimentos, incluindo os ativos, finalizados e cancelados.') + '</p>';
+      : 'Consulte todos os atendimentos, incluindo os ativos, finalizados e cancelados.');
     if (painel) {
       const stats = [
         [base.length, 'Atendimentos ativos'],
@@ -153,7 +134,7 @@
   }
 
   function listaPacientes() {
-    tela(titulo('Pacientes') + '<p class="descricao-pagina">Consulte e atualize os dados dos pacientes cadastrados e acesse o histórico de atendimentos.</p><div class="card" id="filtros"></div><div id="lista"></div>');
+    tela(titulo('Pacientes', '', 'Consulte e atualize os dados dos pacientes cadastrados e acesse o histórico de atendimentos.') + '<div class="card" id="filtros"></div><div id="lista"></div>');
     filtros(campo('busca', 'Pesquisar nome, CPF ou cidade', 'search'), () => {
       const itens = procurar('pacientes').filter(p => corresponde([p.nome_completo, p.cpf, p.cidade], $('#busca').value));
       $('#lista').innerHTML = tabela(['Nome','CPF','Nascimento','Cidade / UF','Ações'], itens.map(p => [
@@ -190,7 +171,7 @@
       + '<h2 id="titulo-sem-cadastro">Primeiro atendimento?</h2>'
       + '<p class="muted">Se o paciente ainda não estiver no sistema, cadastre-o. Na volta, ele já estará selecionado.</p>'
       + '<div class="actions">' + link('paciente-form.html?origem=chegada', 'Cadastrar novo paciente', true) + '</div></section>';
-    tela(titulo('Novo atendimento', link('painel.html', 'Voltar ao painel', true))
+    tela(titulo('Novo atendimento')
       + fluxoPaciente(null, Boolean(selecionado))
       + '<p class="descricao-pagina">Escolha um paciente existente ou faça um novo cadastro para registrar a chegada.</p>'
       + '<div id="avisos-paciente"></div><div class="abertura-opcoes">' + formulario + semCadastro + '</div>');
@@ -288,118 +269,12 @@
       else navegar('atendimento.html?id=' + id, 'Consulta salva e atendimento encerrado.');
     });
   }
-  function identidadeAcesso() {
-    document.body.classList.add('pagina-acesso');
-    const rodape = $('.footer');
-    const assinatura = document.createElement('div');
-    assinatura.className = 'assinatura-acesso';
-    assinatura.append(...rodape.children);
-    rodape.append(assinatura);
-    const marca = document.createElement('aside');
-    marca.className = 'acesso-marca';
-    marca.innerHTML = '<div class="acesso-copy"><p class="acesso-frase">Vihva Juntos pela vida</p><h2>Cuidar começa por aqui.</h2>'
-      + '<p>Acompanhe cada etapa do atendimento em um só lugar.</p></div>';
-    const telaAcesso = $('#tela');
-    const painel = telaAcesso.parentElement;
-    telaAcesso.prepend($('#mensagem'));
-    painel.classList.add('acesso-painel');
-    painel.prepend(marca);
-    telaAcesso.insertAdjacentHTML('afterbegin', '<nav class="abas-acesso" aria-label="Acesso ao Vihva">'
-      + '<a href="login.html" data-acesso="login">Entrar</a>'
-      + '<a href="?aba=cadastro" data-acesso="cadastro">Criar conta</a></nav>');
-    telaAcesso.insertAdjacentHTML('beforeend', '<div id="form-acesso"></div>');
-    painel.addEventListener('click', alternarAcesso);
-    window.addEventListener('popstate', renderizarAcesso);
-    renderizarAcesso();
-  }
-  function alternarAcesso(evento) {
-    const link = evento.target.closest('a');
-    if (!link || evento.defaultPrevented || evento.button !== 0 || evento.ctrlKey || evento.metaKey || evento.shiftKey || evento.altKey) return;
-    const destino = new URL(link.href);
-    if (!destino.pathname.endsWith('/login.html')) return;
-    evento.preventDefault();
-    if (destino.href === location.href) return;
-    history.pushState(null, '', destino.href);
-    renderizarAcesso();
-    $('.abas-acesso [aria-current="page"]').focus({preventScroll: true});
-  }
-  function renderizarAcesso() {
-    const cadastroAtivo = new URLSearchParams(location.search).get('aba') === 'cadastro';
-    document.title = cadastroAtivo ? 'Criar conta - Vihva' : 'Entrar - Vihva';
-    for (const aba of document.querySelectorAll('.abas-acesso a')) {
-      if ((aba.dataset.acesso === 'cadastro') === cadastroAtivo) aba.setAttribute('aria-current', 'page');
-      else aba.removeAttribute('aria-current');
-    }
-    $('#mensagem').hidden = true;
-    (cadastroAtivo ? cadastro : login)();
-  }
-  function login() {
-    // Valida a interface usando o repositório local; não autentica credenciais.
-    tela(`<div class="login-heading"><h1>Entrar</h1><p class="muted">Acesse sua conta para continuar.</p></div>
-      <form id="form" class="login-form">
-        ${campo('email','E-mail','email','','required maxlength="100" autocomplete="username" placeholder="voce@email.com"')}
-        <div class="login-password">
-          ${campo('senha','Senha','password','','required autocomplete="current-password" placeholder="Digite sua senha"')}
-          <label class="senha-visibilidade" for="mostrar_senha">
-            <input type="checkbox" id="mostrar_senha" aria-controls="senha">
-            <span>Mostrar senha</span>
-          </label>
-        </div>
-        <button class="btn btn-full" type="submit">Entrar</button>
-      </form>
-      <p class="login-cadastro">Ainda não tem conta? <a class="link" href="?aba=cadastro">Criar conta</a></p>`);
-    $('#mostrar_senha').addEventListener('change', evento => {
-      $('#senha').type = evento.target.checked ? 'text' : 'password';
-    });
-    enviar(d => {
-      senhaValida(d.senha);
-      const usuario = procurar('usuarios').find(x => x.email.toLowerCase() === d.email.toLowerCase());
-      if (!usuario) throw Error('Não foi possível entrar. Confira os dados informados.');
-      autenticarDemo(usuario);
-    });
-  }
-  function cadastro() {
-    tela('<h1>Criar conta</h1><p class="muted">Cadastro simulado. Nenhum e-mail será enviado. Não use credenciais reais.</p>'+form(campo('nome_completo','Nome completo *','text','','required maxlength="150"')+campo('email','E-mail fictício *','email','','required maxlength="100"')+campo('senha','Senha de demonstração *','password','','required autocomplete="off"')+campo('confirmar_senha','Repita a senha *','password','','required autocomplete="off"'),'login.html','Criar cadastro de demonstração'));
-    // Mantém a ação principal antes do cancelamento, inclusive em telas pequenas.
-    const acoes = $('#form .actions');
-    acoes.classList.add('cadastro-acoes');
-    acoes.prepend(acoes.querySelector('button[type="submit"]'));
-    enviar(d=>{senhaValida(d.senha); if(d.senha!==d.confirmar_senha)throw Error('As senhas devem coincidir.'); const u=R.cadastrarUsuario({nome_completo:d.nome_completo,email:d.email}); navegar('confirmar-cadastro.html?id='+u.id_usuario,'Cadastro criado com sucesso.');});
-  }
-  function confirmacao() {
-    const registro = procurar('confirmacoes_demo').find(x => x.id_usuario === id);
-    const confirmado = Boolean(registro?.confirmado);
-    const titulo = !registro ? 'Cadastro não encontrado' : confirmado ? 'Cadastro confirmado' : 'Confirmar cadastro';
-    const descricao = !registro
-      ? 'Não foi possível localizar seu cadastro. Volte ao login ou crie uma conta para continuar.'
-      : confirmado
-        ? 'Seu cadastro foi confirmado. Você já pode acessar sua conta.'
-        : 'Seu cadastro está pronto. Confirme para continuar.';
-
-    tela(`<section class="confirmacao-conteudo" aria-labelledby="titulo-confirmacao">
-      <h1 id="titulo-confirmacao">${titulo}</h1>
-      <p class="muted confirmacao-descricao">${descricao}</p>
-      <div class="confirmacao-acoes">
-        ${registro && !confirmado ? '<button type="button" class="btn btn-full" id="confirmar-demo">Confirmar cadastro</button>' : ''}
-        <a class="btn btn-full ${confirmado ? '' : 'btn-ghost'}" href="login.html">Voltar ao login</a>
-      </div>
-    </section>`);
-
-    $('#confirmar-demo')?.addEventListener('click', () => tentar(() => {
-      // A confirmação permanece local, sem envio de e-mail ou processamento de token.
-      R.confirmar(id);
-      confirmacao();
-      $('#titulo-confirmacao').setAttribute('tabindex', '-1');
-      $('#titulo-confirmacao').focus();
-    }));
-  }
   tentar(()=>{
-    if(!publico && (!sessao || !R.obter('usuarios',sessao.id_usuario))) {location.replace('login.html'); return;}
-    const rotas={'login.html':identidadeAcesso,'confirmar-cadastro.html':confirmacao,'painel.html':()=>listaAtendimentos(true),'atendimentos.html':()=>listaAtendimentos(),'pacientes.html':listaPacientes,'paciente-form.html':formularioPaciente,'novo-atendimento.html':novoAtendimento,'atendimento.html':detalhe,'triagem.html':()=>formularioClinico('triagens'),'consulta.html':()=>formularioClinico('consultas')};
+    const rotas={'painel.html':()=>listaAtendimentos(true),'atendimentos.html':()=>listaAtendimentos(),'pacientes.html':listaPacientes,'paciente-form.html':formularioPaciente,'novo-atendimento.html':novoAtendimento,'atendimento.html':detalhe,'triagem.html':()=>formularioClinico('triagens'),'consulta.html':()=>formularioClinico('consultas')};
     if(!rotas[pagina]) throw Error('Página não encontrada.');
     rotas[pagina]();
     if(window.VihvaAviso) aviso(window.VihvaAviso,true);
     const mensagem=sessionStorage.getItem('vihva.demo.aviso');
-    if(mensagem){sessionStorage.removeItem('vihva.demo.aviso'); if(!telaLogin && !telaConfirmacao) aviso(mensagem);}
+    if(mensagem){sessionStorage.removeItem('vihva.demo.aviso'); aviso(mensagem);}
   });
 })();
