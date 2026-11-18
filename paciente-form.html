@@ -4,14 +4,108 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paciente - Vihva</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/config.js" defer></script>
-  <script src="assets/dados-demo.js" defer></script>
-  <script src="assets/repositorio-demo.js" defer></script>
-  <script src="assets/app.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/prototipo/config.js" defer></script>
+  <script src="assets/js/prototipo/dados-demo.js" defer></script>
+  <script src="assets/js/prototipo/repositorio-demo.js" defer></script>
+  <script src="assets/js/comum.js" defer></script>
+  <script src="assets/js/paciente-form.js" defer></script>
 </head>
-<body>
-  <!-- A interface compartilhada carrega somente dados de demonstração locais. -->
-  <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+<body class="pagina-sistema">
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  <nav class="nav nav-sistema" aria-label="Navegação principal">
+    <a class="logo" href="index.html"><img class="logo-imagem" src="assets/imagens/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a>
+    <div class="nav-operacao">
+      <button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <div class="links" id="menu">
+        <a href="painel.html">Painel</a>
+        <a href="pacientes.html" class="active" aria-current="page">Pacientes</a>
+        <a href="atendimentos.html">Histórico</a>
+      </div>
+    </div>
+  </nav>
+  <main id="conteudo" tabindex="-1">
+    <div class="page">
+      <p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p>
+      <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+      <div class="page-head">
+        <h1 id="titulo-pagina">Novo paciente</h1>
+        <div class="actions">
+          <a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a>
+        </div>
+      </div>
+      <div id="orientacao-cadastro" hidden>
+        <ol class="fluxo-paciente" aria-label="Etapas do atendimento">
+          <li><span class="fluxo-numero">1</span><span class="etapa-nome">Cadastro do paciente</span><span class="etapa-curta" aria-hidden="true">Cadastro</span></li>
+          <li><span class="fluxo-numero">2</span><span class="etapa-nome">Abertura do atendimento</span><span class="etapa-curta" aria-hidden="true">Abertura</span></li>
+          <li><span class="fluxo-numero">3</span><span class="etapa-nome">Triagem</span><span class="etapa-curta" aria-hidden="true">Triagem</span></li>
+          <li><span class="fluxo-numero">4</span><span class="etapa-nome">Consulta</span><span class="etapa-curta" aria-hidden="true">Consulta</span></li>
+          <li><span class="fluxo-numero">5</span><span class="etapa-nome">Encerrado</span><span class="etapa-curta" aria-hidden="true">Encerrado</span></li>
+        </ol>
+        <p class="descricao-pagina">Cadastre o paciente para continuar com a abertura do atendimento.</p>
+      </div>
+      <form id="form">
+        <section class="card">
+          <h2>Dados do paciente</h2>
+          <p class="muted">Na edição, campos opcionais deixados vazios mantêm o valor anterior, conforme a regra atual do sistema.</p>
+          <div class="field">
+            <label for="data_nascimento">Data de nascimento *</label>
+            <input id="data_nascimento" name="data_nascimento" type="date" required min="1000-01-01" max="9999-12-31">
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="nome_completo">Nome completo *</label>
+              <input id="nome_completo" name="nome_completo" type="text" maxlength="200" required>
+            </div>
+            <div class="field">
+              <label for="cpf">CPF</label>
+              <input id="cpf" name="cpf" type="text" maxlength="11">
+            </div>
+            <div class="field">
+              <label for="rg">RG</label>
+              <input id="rg" name="rg" type="text" maxlength="20">
+            </div>
+            <div class="field">
+              <label for="nome_mae">Nome da mãe</label>
+              <input id="nome_mae" name="nome_mae" type="text" maxlength="200">
+            </div>
+            <div class="field">
+              <label for="nome_pai">Nome do pai</label>
+              <input id="nome_pai" name="nome_pai" type="text" maxlength="200">
+            </div>
+            <div class="field">
+              <label for="logradouro">Logradouro</label>
+              <input id="logradouro" name="logradouro" type="text" maxlength="150">
+            </div>
+            <div class="field">
+              <label for="numero">Número</label>
+              <input id="numero" name="numero" type="text" maxlength="10">
+            </div>
+            <div class="field">
+              <label for="bairro">Bairro</label>
+              <input id="bairro" name="bairro" type="text" maxlength="100">
+            </div>
+            <div class="field">
+              <label for="cidade">Cidade</label>
+              <input id="cidade" name="cidade" type="text" maxlength="100">
+            </div>
+            <div class="field">
+              <label for="estado">UF</label>
+              <input id="estado" name="estado" type="text" maxlength="2">
+            </div>
+            <div class="field">
+              <label for="cep">CEP</label>
+              <input id="cep" name="cep" type="text" maxlength="8">
+            </div>
+          </div>
+        </section>
+        <div class="actions acoes-formulario-paciente">
+          <a class="btn btn-ghost btn-small" href="pacientes.html" id="cancelar">Cancelar</a>
+          <button class="btn" type="submit">Salvar paciente</button>
+        </div>
+      </form>
+    </div>
+  </main>
+  <footer class="footer"><span>Juntos pela vida <b aria-hidden="true">♥</b></span></footer>
 </body>
 </html>

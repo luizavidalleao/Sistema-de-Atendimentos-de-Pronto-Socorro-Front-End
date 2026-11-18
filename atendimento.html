@@ -4,14 +4,134 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atendimento - Vihva</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/config.js" defer></script>
-  <script src="assets/dados-demo.js" defer></script>
-  <script src="assets/repositorio-demo.js" defer></script>
-  <script src="assets/app.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/prototipo/config.js" defer></script>
+  <script src="assets/js/prototipo/dados-demo.js" defer></script>
+  <script src="assets/js/prototipo/repositorio-demo.js" defer></script>
+  <script src="assets/js/comum.js" defer></script>
+  <script src="assets/js/atendimento.js" defer></script>
 </head>
-<body>
-  <!-- A interface compartilhada carrega somente dados de demonstração locais. -->
-  <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+<body class="pagina-sistema">
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  <nav class="nav nav-sistema" aria-label="Navegação principal">
+    <a class="logo" href="index.html"><img class="logo-imagem" src="assets/imagens/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a>
+    <div class="nav-operacao">
+      <button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <div class="links" id="menu">
+        <a href="painel.html">Painel</a>
+        <a href="pacientes.html">Pacientes</a>
+        <a href="atendimentos.html" class="active" aria-current="page">Histórico</a>
+      </div>
+    </div>
+  </nav>
+  <main id="conteudo" tabindex="-1">
+    <div class="page">
+      <p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p>
+      <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+      <div class="page-head">
+        <h1 id="titulo-pagina">Atendimento</h1>
+        <div class="actions">
+          <a class="btn btn-ghost btn-small" href="painel.html" id="retorno-cabecalho" hidden>Voltar ao painel</a>
+          <a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a>
+        </div>
+      </div>
+      <p class="identificacao-atendimento" hidden></p>
+      <ol class="fluxo-paciente" aria-label="Etapas do atendimento">
+        <li><span class="fluxo-numero">1</span><span class="etapa-nome">Cadastro do paciente</span><span class="etapa-curta" aria-hidden="true">Cadastro</span></li>
+        <li><span class="fluxo-numero">2</span><span class="etapa-nome">Abertura do atendimento</span><span class="etapa-curta" aria-hidden="true">Abertura</span></li>
+        <li><span class="fluxo-numero">3</span><span class="etapa-nome">Triagem</span><span class="etapa-curta" aria-hidden="true">Triagem</span></li>
+        <li><span class="fluxo-numero">4</span><span class="etapa-nome">Consulta</span><span class="etapa-curta" aria-hidden="true">Consulta</span></li>
+        <li><span class="fluxo-numero">5</span><span class="etapa-nome">Encerrado</span><span class="etapa-curta" aria-hidden="true">Encerrado</span></li>
+      </ol>
+      <section class="proxima-etapa abertura-confirmada" aria-labelledby="abertura-concluida" id="confirmacao-etapa" hidden>
+        <div>
+          <h2 id="abertura-concluida"></h2>
+          <p id="confirmacao-triagem" hidden>A triagem foi salva. Você pode iniciar a consulta agora ou voltar ao painel e deixar o atendimento na fila como Consulta pendente.</p>
+          <p id="confirmacao-abertura" hidden>A chegada foi registrada. A triagem ainda não começou. Você pode iniciá-la agora ou voltar ao painel para deixar o atendimento na fila.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-ghost btn-small" href="painel.html">Voltar ao painel</a>
+          <a class="btn btn-small" id="iniciar-etapa">Iniciar triagem</a>
+        </div>
+      </section>
+      <div class="proxima-etapa" id="proxima-etapa" hidden>
+        <div>
+          <h2 id="titulo-proxima-etapa"></h2>
+          <p class="muted" id="descricao-proxima-etapa"></p>
+        </div>
+        <a class="btn btn-ghost btn-small" href="painel.html" id="retorno-resumo" hidden>Voltar ao painel</a>
+        <a class="btn btn-small" id="registrar-etapa" hidden>Registrar triagem</a>
+      </div>
+      <div id="resumo-atendimento" hidden>
+        <div class="actions acoes-registros" id="acoes-registros" hidden>
+          <a class="btn btn-ghost btn-small" id="editar-triagem">Editar triagem</a>
+        </div>
+        <div class="grid cols-2">
+          <section class="card">
+            <h2>Paciente</h2>
+            <div id="resumo-paciente">
+              <dl class="dados">
+                <dt>Nascimento</dt>
+                <dd data-campo="data_nascimento"></dd>
+                <dt>CPF</dt>
+                <dd data-campo="cpf"></dd>
+                <dt>RG</dt>
+                <dd data-campo="rg"></dd>
+                <dt>Mãe</dt>
+                <dd data-campo="nome_mae"></dd>
+                <dt>Pai</dt>
+                <dd data-campo="nome_pai"></dd>
+                <dt>Logradouro</dt>
+                <dd data-campo="logradouro"></dd>
+                <dt>Número</dt>
+                <dd data-campo="numero"></dd>
+                <dt>Bairro</dt>
+                <dd data-campo="bairro"></dd>
+                <dt>Cidade</dt>
+                <dd data-campo="cidade"></dd>
+                <dt>UF</dt>
+                <dd data-campo="estado"></dd>
+                <dt>CEP</dt>
+                <dd data-campo="cep"></dd>
+              </dl>
+            </div>
+          </section>
+          <section class="card">
+            <h2>Triagem</h2>
+            <p id="triagem-vazia">Aguardando registro da triagem.</p>
+            <div id="resumo-triagem" hidden>
+              <dl class="dados">
+                <dt>Classificação</dt>
+                <dd data-campo="classificacao_manchester"></dd>
+                <dt>Sistólica (mmHg)</dt>
+                <dd data-campo="pressao_sistolica"></dd>
+                <dt>Diastólica (mmHg)</dt>
+                <dd data-campo="pressao_diastolica"></dd>
+                <dt>Temperatura (°C)</dt>
+                <dd data-campo="temperatura"></dd>
+                <dt>Batimentos (bpm)</dt>
+                <dd data-campo="batimentos_cardiacos"></dd>
+              </dl>
+              <div class="resumo-queixas">
+                <h3>Queixas</h3>
+                <p id="queixas-triagem"></p>
+              </div>
+            </div>
+          </section>
+        </div>
+        <section class="card">
+          <h2>Consulta</h2>
+          <p id="consulta-vazia">Aguardando registro da consulta.</p>
+          <div class="resumo-consulta" hidden>
+            <h3>Registro clínico da consulta</h3>
+            <p class="texto-registro" id="observacoes-consulta"></p>
+            <h3>Prescrição de medicamentos</h3>
+            <p class="texto-registro" id="medicamentos-consulta"></p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><span>Juntos pela vida <b aria-hidden="true">♥</b></span></footer>
 </body>
 </html>

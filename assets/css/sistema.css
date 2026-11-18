@@ -4,6 +4,7 @@
   --borda-cartao: #dce7f3;
   --sombra-cartao: 0 8px 22px #344d840a;
   --tom-navegacao: #f0f5fc;
+  --largura-menu: 18.5rem;
   --titulo-sistema: #192c44;
   background: var(--bg);
 }
@@ -52,12 +53,17 @@
 .pagina-sistema .fluxo-paciente .concluida { background: #e9f3ff; }
 .pagina-sistema .fluxo-paciente .atual { background: #ffedef; border-color: #f5c8cf; }
 .pagina-sistema .resumo-queixas p { background: #f5f8fd; }
-.pagina-sistema .footer { background: #ffffff94; border-color: var(--borda-cartao); color: #536681; }
 @media (hover: hover) {
   .pagina-sistema #menu a:not([aria-current]):hover { background: #e3edf9; }
   .pagina-sistema .listagem-responsiva tbody tr:hover { background: #f7faff; }
 }
 @media (max-width: 600px) {
   .pagina-sistema .indicadores-fila > .stat { min-height: 74px; border-radius: 13px; }
-  .pagina-sistema .footer { padding-block: 12px; }
+}
+
+@media (min-width: 601px) {
+  .pagina-sistema #menu {
+    width: var(--largura-menu);
+    justify-content: center;
+  }
 }

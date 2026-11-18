@@ -4,7 +4,7 @@
   align-items: start;
   min-height: 100svh;
   padding: clamp(28px, 6.5vh, 72px) 0 clamp(88px, 15vh, 150px);
-  background: #f3f6fd url("acesso-ilustracao.svg") right bottom / cover no-repeat;
+  background: #f3f6fd url("../imagens/acesso-ilustracao.svg") right bottom / cover no-repeat;
 }
 .boas-vindas-conteudo { width: min(76%, 1340px); margin-inline: auto; }
 .boas-vindas-logo {

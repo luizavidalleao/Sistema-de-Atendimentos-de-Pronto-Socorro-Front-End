@@ -4,14 +4,133 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Triagem - Vihva</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/config.js" defer></script>
-  <script src="assets/dados-demo.js" defer></script>
-  <script src="assets/repositorio-demo.js" defer></script>
-  <script src="assets/app.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/prototipo/config.js" defer></script>
+  <script src="assets/js/prototipo/dados-demo.js" defer></script>
+  <script src="assets/js/prototipo/repositorio-demo.js" defer></script>
+  <script src="assets/js/comum.js" defer></script>
+  <script src="assets/js/etapa-clinica.js" defer></script>
+  <script src="assets/js/triagem.js" defer></script>
 </head>
-<body>
-  <!-- A interface compartilhada carrega somente dados de demonstração locais. -->
-  <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+<body class="pagina-sistema">
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  <nav class="nav nav-sistema" aria-label="Navegação principal">
+    <a class="logo" href="index.html"><img class="logo-imagem" src="assets/imagens/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a>
+    <div class="nav-operacao">
+      <button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <div class="links" id="menu">
+        <a href="painel.html">Painel</a>
+        <a href="pacientes.html">Pacientes</a>
+        <a href="atendimentos.html" class="active" aria-current="page">Histórico</a>
+      </div>
+    </div>
+  </nav>
+  <main id="conteudo" tabindex="-1">
+    <div class="page">
+      <p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p>
+      <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+      <div class="page-head">
+        <h1 id="titulo-pagina">Triagem</h1>
+        <div class="actions">
+          <a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a>
+        </div>
+      </div>
+      <ol class="fluxo-paciente" aria-label="Etapas do atendimento">
+        <li><span class="fluxo-numero">1</span><span class="etapa-nome">Cadastro do paciente</span><span class="etapa-curta" aria-hidden="true">Cadastro</span></li>
+        <li><span class="fluxo-numero">2</span><span class="etapa-nome">Abertura do atendimento</span><span class="etapa-curta" aria-hidden="true">Abertura</span></li>
+        <li><span class="fluxo-numero">3</span><span class="etapa-nome">Triagem</span><span class="etapa-curta" aria-hidden="true">Triagem</span></li>
+        <li><span class="fluxo-numero">4</span><span class="etapa-nome">Consulta</span><span class="etapa-curta" aria-hidden="true">Consulta</span></li>
+        <li><span class="fluxo-numero">5</span><span class="etapa-nome">Encerrado</span><span class="etapa-curta" aria-hidden="true">Encerrado</span></li>
+      </ol>
+      <div class="contexto-etapa">
+        <p class="contexto-paciente"></p>
+        <p class="muted">Confira o paciente e preencha os dados desta etapa. Ao salvar, você poderá iniciar a consulta ou voltar ao painel.</p>
+      </div>
+      <form id="form" class="form-etapa">
+        <section class="card">
+          <h2>Sinais vitais</h2>
+          <div class="row">
+            <div class="field">
+              <label for="pressao_sistolica">Pressão sistólica (mmHg)</label>
+              <input id="pressao_sistolica" name="pressao_sistolica" type="number" min="0" max="65535" step="1">
+            </div>
+            <div class="field">
+              <label for="pressao_diastolica">Pressão diastólica (mmHg)</label>
+              <input id="pressao_diastolica" name="pressao_diastolica" type="number" min="0" max="65535" step="1">
+            </div>
+            <div class="field">
+              <label for="temperatura">Temperatura (°C)</label>
+              <input id="temperatura" name="temperatura" type="number" step="0.1" min="-999.9" max="999.9">
+            </div>
+            <div class="field">
+              <label for="batimentos_cardiacos">Batimentos (bpm)</label>
+              <input id="batimentos_cardiacos" name="batimentos_cardiacos" type="number" min="0" max="65535" step="1">
+            </div>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Queixas</h2>
+          <div class="field">
+            <label for="queixas">Queixas relatadas</label>
+            <textarea id="queixas" name="queixas"></textarea>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Classificação Manchester</h2>
+          <fieldset class="manchester">
+            <legend>Classificação de risco *</legend>
+            <p class="muted manchester-ajuda">Selecione a cor da classificação.</p>
+            <div class="manchester-opcoes">
+              <label class="manchester-opcao manchester-vermelho" for="classificacao_VERMELHO">
+                <input type="radio" id="classificacao_VERMELHO" name="classificacao_manchester" aria-labelledby="nome_classificacao_VERMELHO" aria-describedby="urgencia_VERMELHO" value="VERMELHO" required>
+                <span class="manchester-cartao">
+                  <span class="manchester-cor" aria-hidden="true"></span>
+                  <span class="manchester-nome" id="nome_classificacao_VERMELHO">Vermelho</span>
+                  <span class="manchester-urgencia" id="urgencia_VERMELHO">Emergência</span>
+                </span>
+              </label>
+              <label class="manchester-opcao manchester-laranja" for="classificacao_LARANJA">
+                <input type="radio" id="classificacao_LARANJA" name="classificacao_manchester" aria-labelledby="nome_classificacao_LARANJA" aria-describedby="urgencia_LARANJA" value="LARANJA" required>
+                <span class="manchester-cartao">
+                  <span class="manchester-cor" aria-hidden="true"></span>
+                  <span class="manchester-nome" id="nome_classificacao_LARANJA">Laranja</span>
+                  <span class="manchester-urgencia" id="urgencia_LARANJA">Muito urgente</span>
+                </span>
+              </label>
+              <label class="manchester-opcao manchester-amarelo" for="classificacao_AMARELO">
+                <input type="radio" id="classificacao_AMARELO" name="classificacao_manchester" aria-labelledby="nome_classificacao_AMARELO" aria-describedby="urgencia_AMARELO" value="AMARELO" required>
+                <span class="manchester-cartao">
+                  <span class="manchester-cor" aria-hidden="true"></span>
+                  <span class="manchester-nome" id="nome_classificacao_AMARELO">Amarelo</span>
+                  <span class="manchester-urgencia" id="urgencia_AMARELO">Urgente</span>
+                </span>
+              </label>
+              <label class="manchester-opcao manchester-verde" for="classificacao_VERDE">
+                <input type="radio" id="classificacao_VERDE" name="classificacao_manchester" aria-labelledby="nome_classificacao_VERDE" aria-describedby="urgencia_VERDE" value="VERDE" required>
+                <span class="manchester-cartao">
+                  <span class="manchester-cor" aria-hidden="true"></span>
+                  <span class="manchester-nome" id="nome_classificacao_VERDE">Verde</span>
+                  <span class="manchester-urgencia" id="urgencia_VERDE">Pouco urgente</span>
+                </span>
+              </label>
+              <label class="manchester-opcao manchester-azul" for="classificacao_AZUL">
+                <input type="radio" id="classificacao_AZUL" name="classificacao_manchester" aria-labelledby="nome_classificacao_AZUL" aria-describedby="urgencia_AZUL" value="AZUL" required>
+                <span class="manchester-cartao">
+                  <span class="manchester-cor" aria-hidden="true"></span>
+                  <span class="manchester-nome" id="nome_classificacao_AZUL">Azul</span>
+                  <span class="manchester-urgencia" id="urgencia_AZUL">Não urgente</span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+        </section>
+        <div class="actions acoes-etapa">
+          <button class="btn" type="submit">Salvar</button>
+          <a class="btn btn-ghost btn-small" href="painel.html" id="cancelar">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  <footer class="footer"><span>Juntos pela vida <b aria-hidden="true">♥</b></span></footer>
 </body>
 </html>

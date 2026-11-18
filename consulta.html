@@ -4,14 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta - Vihva</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/config.js" defer></script>
-  <script src="assets/dados-demo.js" defer></script>
-  <script src="assets/repositorio-demo.js" defer></script>
-  <script src="assets/app.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/prototipo/config.js" defer></script>
+  <script src="assets/js/prototipo/dados-demo.js" defer></script>
+  <script src="assets/js/prototipo/repositorio-demo.js" defer></script>
+  <script src="assets/js/comum.js" defer></script>
+  <script src="assets/js/etapa-clinica.js" defer></script>
+  <script src="assets/js/consulta.js" defer></script>
 </head>
-<body>
-  <!-- A interface compartilhada carrega somente dados de demonstração locais. -->
-  <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+<body class="pagina-sistema">
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  <nav class="nav nav-sistema" aria-label="Navegação principal">
+    <a class="logo" href="index.html"><img class="logo-imagem" src="assets/imagens/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a>
+    <div class="nav-operacao">
+      <button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <div class="links" id="menu">
+        <a href="painel.html">Painel</a>
+        <a href="pacientes.html">Pacientes</a>
+        <a href="atendimentos.html" class="active" aria-current="page">Histórico</a>
+      </div>
+    </div>
+  </nav>
+  <main id="conteudo" tabindex="-1">
+    <div class="page">
+      <p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p>
+      <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+      <div class="page-head">
+        <h1 id="titulo-pagina">Consulta</h1>
+        <div class="actions">
+          <a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a>
+        </div>
+      </div>
+      <ol class="fluxo-paciente" aria-label="Etapas do atendimento">
+        <li><span class="fluxo-numero">1</span><span class="etapa-nome">Cadastro do paciente</span><span class="etapa-curta" aria-hidden="true">Cadastro</span></li>
+        <li><span class="fluxo-numero">2</span><span class="etapa-nome">Abertura do atendimento</span><span class="etapa-curta" aria-hidden="true">Abertura</span></li>
+        <li><span class="fluxo-numero">3</span><span class="etapa-nome">Triagem</span><span class="etapa-curta" aria-hidden="true">Triagem</span></li>
+        <li><span class="fluxo-numero">4</span><span class="etapa-nome">Consulta</span><span class="etapa-curta" aria-hidden="true">Consulta</span></li>
+        <li><span class="fluxo-numero">5</span><span class="etapa-nome">Encerrado</span><span class="etapa-curta" aria-hidden="true">Encerrado</span></li>
+      </ol>
+      <div class="contexto-etapa">
+        <p class="contexto-paciente"></p>
+        <p class="muted">Confira o paciente e preencha os dados desta etapa. Ao salvar, o atendimento será encerrado e ficará no histórico.</p>
+      </div>
+      <form id="form" class="form-etapa">
+        <section class="card">
+          <h2>Registro clínico da consulta</h2>
+          <div class="field">
+            <label for="observacoes">Anotações clínicas</label>
+            <textarea id="observacoes" name="observacoes"></textarea>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Prescrição de medicamentos</h2>
+          <div class="field">
+            <label for="medicamentos">Medicamentos prescritos</label>
+            <textarea id="medicamentos" name="medicamentos"></textarea>
+          </div>
+        </section>
+        <div class="actions acoes-etapa">
+          <button class="btn" type="submit">Salvar</button>
+          <a class="btn btn-ghost btn-small" href="painel.html" id="cancelar">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  <footer class="footer"><span>Juntos pela vida <b aria-hidden="true">♥</b></span></footer>
 </body>
 </html>

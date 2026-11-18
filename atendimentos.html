@@ -4,14 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atendimentos - Vihva</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/config.js" defer></script>
-  <script src="assets/dados-demo.js" defer></script>
-  <script src="assets/repositorio-demo.js" defer></script>
-  <script src="assets/app.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/prototipo/config.js" defer></script>
+  <script src="assets/js/prototipo/dados-demo.js" defer></script>
+  <script src="assets/js/prototipo/repositorio-demo.js" defer></script>
+  <script src="assets/js/comum.js" defer></script>
+  <script src="assets/js/lista-atendimentos.js" defer></script>
 </head>
-<body>
-  <!-- A interface compartilhada carrega somente dados de demonstração locais. -->
-  <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+<body class="pagina-sistema">
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  <nav class="nav nav-sistema" aria-label="Navegação principal">
+    <a class="logo" href="index.html"><img class="logo-imagem" src="assets/imagens/logo-vihva-fiel.svg" alt="Vihva" width="146" height="46" decoding="async"></a>
+    <div class="nav-operacao">
+      <button class="btn btn-ghost btn-small menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <div class="links" id="menu">
+        <a href="painel.html">Painel</a>
+        <a href="pacientes.html">Pacientes</a>
+        <a href="atendimentos.html" class="active" aria-current="page">Histórico</a>
+      </div>
+    </div>
+  </nav>
+  <main id="conteudo" tabindex="-1">
+    <div class="page">
+      <p id="mensagem" class="alert" role="status" tabindex="-1" hidden></p>
+      <noscript>Ative o JavaScript para usar a demonstração do Vihva.</noscript>
+      <div class="page-head cabecalho-listagem">
+        <h1 id="titulo-pagina">Histórico de atendimentos</h1>
+        <p class="descricao-pagina">Consulte todos os atendimentos, incluindo os ativos, finalizados e cancelados.</p>
+        <div class="actions">
+          <a class="btn btn-receber-paciente" href="novo-atendimento.html"><span class="receber-icone" aria-hidden="true">+</span> Registrar atendimento</a>
+        </div>
+      </div>
+      <div class="card row" id="filtros">
+        <div class="field">
+          <label for="busca">Pesquisar paciente ou número do atendimento</label>
+          <input id="busca" name="busca" type="search">
+        </div>
+        <div class="field">
+          <label for="paciente_historico">Paciente</label>
+          <select id="paciente_historico" name="paciente_historico">
+            <option value="">Todos os pacientes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="">Todos</option>
+            <option value="TRIAGEM_PENDENTE">Triagem pendente</option>
+            <option value="CONSULTA_PENDENTE">Consulta pendente</option>
+            <option value="FINALIZADO">Finalizado</option>
+            <option value="CANCELADO">Cancelado</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="classificacao">Classificação</label>
+          <select id="classificacao" name="classificacao">
+            <option value="">Todas</option>
+            <option value="VERMELHO">Vermelho</option>
+            <option value="LARANJA">Laranja</option>
+            <option value="AMARELO">Amarelo</option>
+            <option value="VERDE">Verde</option>
+            <option value="AZUL">Azul</option>
+            <option value="SEM">Sem triagem</option>
+          </select>
+        </div>
+      </div>
+      <p id="contagem" role="status"></p>
+      <div id="lista">
+        <div class="card card-table listagem-responsiva tabela-atendimentos">
+          <table role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Nº</th>
+                <th scope="col" role="columnheader">Paciente</th>
+                <th scope="col" role="columnheader">Chegada</th>
+                <th scope="col" role="columnheader">Saída</th>
+                <th scope="col" role="columnheader">Triagem</th>
+                <th scope="col" role="columnheader">Status</th>
+                <th scope="col" role="columnheader">Ações</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><span>Juntos pela vida <b aria-hidden="true">♥</b></span></footer>
 </body>
 </html>
