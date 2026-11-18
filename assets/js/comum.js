@@ -307,6 +307,7 @@
     marcarEtapas,
     preencherTabela,
     adicionarOpcoes,
-    iniciarTela
+    iniciarTela,
+    executarComTratamentoDeErro
   };
 })();

@@ -245,6 +245,22 @@
         return gravarRegistro(tabela, registro);
       });
     },
+    // Cancela somente atendimentos pendentes e mantém os registros clínicos.
+    cancelarAtendimento: function (idAtendimento) {
+      return executarTransacao(function () {
+        const atendimento = dados.atendimentos.find(function (registro) {
+          return registro.id_atendimento === idAtendimento;
+        });
+        if (!atendimento || !['ABERTO', 'EM_ANDAMENTO'].includes(atendimento.status)) {
+          throw Error('Só é possível cancelar um atendimento pendente.');
+        }
+        return gravarRegistro('atendimentos', {
+          ...atendimento,
+          status: 'CANCELADO',
+          data_hora_saida: new Date().toISOString()
+        });
+      });
+    },
     limiteMedicamentos,
     consulta: function (registro) {
       return executarTransacao(function () {

@@ -64,7 +64,8 @@
       </div>
       <div id="resumo-atendimento" hidden>
         <div class="actions acoes-registros" id="acoes-registros" hidden>
-          <a class="btn btn-ghost btn-small" id="editar-triagem">Editar triagem</a>
+          <a class="btn btn-ghost btn-small" id="editar-triagem" hidden>Editar triagem</a>
+          <button class="btn btn-ghost btn-small" type="button" id="cancelar-atendimento" hidden>Cancelar atendimento</button>
         </div>
         <div class="grid cols-2">
           <section class="card">
@@ -132,6 +133,15 @@
       </div>
     </div>
   </main>
+  <!-- Confirmação de cancelamento com as mesmas cores e botões do sistema. -->
+  <dialog class="confirmacao-dialogo" id="confirmacao-cancelamento" aria-labelledby="titulo-cancelamento" aria-describedby="descricao-cancelamento">
+    <h2 id="titulo-cancelamento">Cancelar este atendimento?</h2>
+    <p id="descricao-cancelamento">O atendimento será marcado como cancelado e ficará disponível apenas no histórico.</p>
+    <form method="dialog" class="actions">
+      <button class="btn btn-ghost" value="voltar" autofocus>Voltar</button>
+      <button class="btn" value="confirmar">Cancelar atendimento</button>
+    </form>
+  </dialog>
   <footer class="footer"><span>Juntos pela vida <b aria-hidden="true">♥</b></span></footer>
 </body>
 </html>

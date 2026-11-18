@@ -31,3 +31,26 @@ select:focus-visible { outline: 2px solid #2a6fa8; outline-offset: 2px; }
 .abertura-orientacao { margin: 0 0 16px; line-height: 1.5; }
 .abertura-vazia { margin: 0; padding: 12px; background: var(--bg); border-radius: 8px; }
 .abertura-vazia + #resumo-abertura + .nota-campo { display: none; }
+
+/* A confirmação usa dialog para manter o foco e bloquear a página ao fundo. */
+.confirmacao-dialogo {
+  width: min(480px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  box-sizing: border-box;
+  margin: auto;
+  padding: 28px;
+  border: 1px solid #d4e2f0;
+  border-radius: 22px;
+  background: white;
+  color: var(--dark);
+  box-shadow: 0 20px 60px #243a5430;
+}
+.confirmacao-dialogo::backdrop { background: #172f4666; }
+.confirmacao-dialogo h2 { margin: 0 0 12px; font-size: 1.35rem; }
+.confirmacao-dialogo p { margin: 0 0 24px; color: #566b85; line-height: 1.6; }
+.confirmacao-dialogo .actions { margin: 0; justify-content: flex-end; gap: 12px; }
+@media (max-width: 480px) {
+  .confirmacao-dialogo { padding: 22px; }
+  .confirmacao-dialogo .actions { flex-direction: column; align-items: stretch; }
+  .confirmacao-dialogo .btn { width: 100%; }
+}

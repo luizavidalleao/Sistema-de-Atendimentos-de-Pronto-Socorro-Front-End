@@ -18,6 +18,24 @@
   const formatarData = VihvaTela.formatarData;
   const criarEtiqueta = VihvaTela.criarEtiqueta;
   const iniciarTela = VihvaTela.iniciarTela;
+  const repositorio = VihvaTela.repositorio;
+  const navegarComAviso = VihvaTela.navegarComAviso;
+  const executarComTratamentoDeErro = VihvaTela.executarComTratamentoDeErro;
+
+  function cancelarAtendimento() {
+    const dialogo = selecionarElemento('#confirmacao-cancelamento');
+    // Limpa a resposta anterior: Escape e Voltar nunca confirmam a operação.
+    dialogo.returnValue = '';
+    dialogo.showModal();
+  }
+
+  function confirmarCancelamento() {
+    executarComTratamentoDeErro(function () {
+      // A mensagem de sucesso só aparece depois de gravar no navegador.
+      repositorio.cancelarAtendimento(idRegistro);
+      navegarComAviso('atendimento.html?id=' + idRegistro, 'Atendimento cancelado. O registro continua disponível no histórico.');
+    });
+  }
 
   function preencherDados(seletor, registro) {
     for (const elemento of selecionarElemento(seletor).querySelectorAll('[data-campo]')) {
@@ -134,11 +152,23 @@
         mostrarProximaEtapa(Boolean(triagemAtual));
       }
       if (triagemAtual) {
+        selecionarElemento('#editar-triagem').hidden = false;
         selecionarElemento('#editar-triagem').href = 'triagem.html?id=' + idRegistro;
         selecionarElemento('#acoes-registros').hidden = false;
       }
     }
+    if (ativo) {
+      const botaoCancelar = selecionarElemento('#cancelar-atendimento');
+      botaoCancelar.hidden = false;
+      botaoCancelar.addEventListener('click', cancelarAtendimento);
+      selecionarElemento('#acoes-registros').hidden = false;
+    }
     preencherResumo(pessoa, triagemAtual, consulta);
   }
+  selecionarElemento('#confirmacao-cancelamento').addEventListener('close', function (evento) {
+    if (evento.currentTarget.returnValue === 'confirmar') {
+      confirmarCancelamento();
+    }
+  });
   iniciarTela(iniciarDetalheAtendimento);
 })();
